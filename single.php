@@ -29,7 +29,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				while ( have_posts() ) {
 					the_post();
 					get_template_part( 'loop-templates/content', 'single' );
-					understrap_post_nav();
+					//todoFB understrap_post_nav();
 
 					// If comments are open or we have at least one comment, load up the comment template.
 					if ( comments_open() || get_comments_number() ) {
@@ -42,7 +42,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 			<?php
 			// Do the right sidebar check and close div#primary.
-			get_template_part( 'global-templates/right-sidebar-check' );
+			//todoFB get_template_part( 'global-templates/right-sidebar-check' );
 			?>
 
 		</div><!-- .row -->
