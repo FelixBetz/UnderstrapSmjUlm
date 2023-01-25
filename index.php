@@ -35,7 +35,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 			?>
 
 			<main class="site-main" id="main">
-
+			<div class="row">
 				<?php
 				if ( have_posts() ) {
 					// Start the Loop.
@@ -53,6 +53,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 					get_template_part( 'loop-templates/content', 'none' );
 				}
 				?>
+				</div>
 
 			</main>
 
