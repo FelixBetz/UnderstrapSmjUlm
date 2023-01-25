@@ -15,6 +15,31 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 <?php get_template_part( 'sidebar-templates/sidebar', 'footerfull' ); ?>
 
+
+
+<nav class="d-flex justify-content-center  navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <ul class="navbar-nav">
+	<?php
+
+$menuitems = wp_get_nav_menu_items( 7, array( 'order' => 'DESC' ) );//todoFB make menu configurable
+foreach($menuitems as $item)
+{
+      echo '<li class="nav-item active">';
+	  echo '<a class="nav-link" href="'. $item->url  . '">'. $item->title  . '<span class="sr-only">(current)</span></a>';
+      echo '</li>';
+	}
+	?>
+    </ul>
+</nav>
+
+<div class="row">
+
+		
+
+
+</div>
+<!-- todoFB
 <div class="wrapper" id="wrapper-footer">
 
 	<div class="<?php echo esc_attr( $container ); ?>">
@@ -29,20 +54,20 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 						<?php understrap_site_info(); ?>
 
-					</div><!-- .site-info -->
+					</div>
 
-				</footer><!-- #colophon -->
+				</footer>
 
-			</div><!-- col -->
+			</div>
 
-		</div><!-- .row -->
+		</div>
 
-	</div><!-- .container(-fluid) -->
+	</div>
 
-</div><!-- #wrapper-footer -->
+</div>
 
 <?php // Closing div#page from header.php. ?>
-</div><!-- #page -->
+</div> -->
 
 <?php wp_footer(); ?>
 
