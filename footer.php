@@ -33,12 +33,7 @@ foreach($menuitems as $item)
     </ul>
 </nav>
 
-<div class="row">
 
-		
-
-
-</div>
 <!-- todoFB
 <div class="wrapper" id="wrapper-footer">
 
