@@ -214,6 +214,38 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				)
 			)
 		);
+		////////////////////////////
+		$wp_customize->add_setting(
+			'understrap_num_blog_posts',
+			array(
+				'default'           => 6,
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_num_blog_posts',
+				array(
+					'label'       => __( 'Number of blog posts', 'understrap' ),
+					'description' => __( 'Number of blog posts to be display on the blog page (min value: 1)', 'understrap' ),
+					'section'     => 'understrap_theme_layout_options',
+					'type'        => 'number',
+					'priority'    => 20,
+					'input_attrs' => array(
+						'min' => 1,
+						'max' => 100,
+						'step' => 1,
+					  ),
+				)
+			)
+		);
+
+
+		/////////////////////////
 
 		$understrap_site_info = $wp_customize->get_setting( 'understrap_site_info_override' );
 		if ( $understrap_site_info instanceof WP_Customize_Setting ) {

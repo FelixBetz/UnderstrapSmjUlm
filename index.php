@@ -39,7 +39,13 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<?php
 				if ( have_posts() ) {
 					// Start the Loop.
-					while ( have_posts() ) {
+					$cnt_posts =0;
+					$MAX_POSTS = intval(get_theme_mod('understrap_num_blog_posts'));
+
+					if(  1 != is_int($MAX_POSTS) || ($MAX_POSTS <0)) {
+						$MAX_POSTS =0;
+					}
+					while(  ($cnt_posts < $MAX_POSTS) && have_posts() ) {
 						the_post();
 
 						/*
@@ -48,6 +54,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
 						 */
 						get_template_part( 'loop-templates/content', get_post_format(),array('col_size' => 6)  );
+						$cnt_posts+=1;
 					}
 				} else {
 					get_template_part( 'loop-templates/content', 'none' );
