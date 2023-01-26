@@ -7,9 +7,15 @@
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
+
+	//set default col size to 6
+	$col_size = 6;
+	if ( $args['col_size'] ) {
+		$col_size =  $args['col_size'];
+	}
 ?>
 
-<article class="col-lg-6" <?php post_class(); ?> id="post-<?php the_ID(); ?>">
+<article class="col-lg-<?php echo $col_size ?>" <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 
 
 	<div class="card">
@@ -33,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
 						$categories = get_the_category();
 						if ( ! empty( $categories ) ) {
 							foreach($categories as $category) { 
-								echo '<a style="text-decoration: none;" href="'. get_category_link( $category->term_id)  .'" <span class="m-1 badge badge-pill">' . $category->name . ' </span></a>'; 
+								echo '<a style="text-decoration: none;" href="'. get_category_link( $category->term_id)  .'" <span class="ml-2 badge badge-pill">' . $category->name . ' </span></a>'; 
 							}
 						}
 
