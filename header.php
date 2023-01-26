@@ -27,7 +27,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 
 <!-- todoFB -->
 <div class="alert alert-danger" role="alert">
-  Unsere Webiste befindet sich gerade im Umbau. Deswegen sind noch nicht alle Funktionen verfügbar!
+  Unsere Website befindet sich gerade im Umbau. Deswegen sind noch nicht alle Funktionen verfügbar!
 </div>
 <div class="site" id="page">
 
