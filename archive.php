@@ -37,6 +37,9 @@ $container = get_theme_mod( 'understrap_container_type' );
 							the_archive_description( '<div class="taxonomy-description">', '</div>' );
 							?>
 						</header><!-- .page-header -->
+
+						<?php get_search_form(); ?>
+						<hr class="my-3">
 						<?php
 						// Start the loop.
 						while ( have_posts() ) {
@@ -64,8 +67,8 @@ $container = get_theme_mod( 'understrap_container_type' );
 			// Do the right sidebar check and close div#primary.
 			//todoFB get_template_part( 'global-templates/right-sidebar-check' );
 			?>
-					<!-- todoFB Do the right sidebar check and close div#primary.-->
-					</div>
+			<!-- todoFB Do the right sidebar check and close div#primary.-->
+			</div>
 
 		</div><!-- .row -->
 
