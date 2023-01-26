@@ -231,7 +231,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				'understrap_num_blog_posts',
 				array(
 					'label'       => __( 'Number of blog posts', 'understrap' ),
-					'description' => __( 'Number of blog posts to be display on the blog page (min value: 1)', 'understrap' ),
+					'description' => __( 'Number of blog posts to be display on the blog page.', 'understrap' ),
 					'section'     => 'understrap_theme_layout_options',
 					'type'        => 'number',
 					'priority'    => 20,
