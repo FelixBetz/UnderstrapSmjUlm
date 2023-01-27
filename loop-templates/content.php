@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
 			<!-- meta start -->
 			<?php if ( 'post' === get_post_type() ) : ?>
 				<div class="entry-meta">
-					<?php understrap_posted_on(); ?> |
+					<?php understrap_posted_on(); ?> 
 					<?php 
 						$categories = get_the_category();
 						if ( ! empty( $categories ) ) {
