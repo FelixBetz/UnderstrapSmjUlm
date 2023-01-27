@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 <article class="col-lg-<?php echo $col_size ?>" <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 
 
-	<div class="card">
+	<div class="card rounded">
 		<a class="img-card" href= "<?php echo esc_url( get_permalink() ) ; ?>">
 			<?php echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
 		</a>
