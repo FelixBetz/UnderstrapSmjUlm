@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 	<header class="entry-header">
 		<div class="row">
 			<div class="col-md-auto" >
-			<img style="width: 100px; border: 1px solid black;"
+			<img style="width: 100px; border: 1px solid black; border-radius: 50px;"
 			src="<?php echo get_the_post_thumbnail_url( $post->ID, 'thumbnail' ); ?>" />
 				
 			</div>
