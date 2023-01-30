@@ -253,7 +253,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				'title'       => __( 'Countdown', 'understrap' ),
 				'capability'  => 'edit_theme_options',
 				'description' => __( 'Einstellungen für den Countdown im Footer Bereich', 'understrap' ),
-				'priority'    => apply_filters( 'understrap_theme_layout_options_priority', 160 ),
+				'priority'    => apply_filters( 'understrap_theme_layout_options_priority', 0 ),
 			)
 		);
 
