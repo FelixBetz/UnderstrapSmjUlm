@@ -11846,8 +11846,12 @@ a.skip-link:not(:focus):not(:focus-within) {
   color: #fff;
 }
 
-.navbar h1, .navbar .h1 {
+.navbar .navbar h1, .navbar .navbar .h1 {
   font-weight: 400;
+}
+
+.current-menu-item a {
+  color: #fff;
 }
 
 .gallery {

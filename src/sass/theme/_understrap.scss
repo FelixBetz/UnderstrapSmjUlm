@@ -2,7 +2,6 @@ body {
 	overflow-x: hidden; // Fix for Windows Chrome horizontal scrollbar.
 }
 
-
 // Some basic padding for all wrappers
 .wrapper {
 	padding: $grid-gutter-width 0;
@@ -34,7 +33,7 @@ body {
 }
 
 .screen-reader-text {
-	@if variable-exists('bootstrap4') {
+	@if variable-exists("bootstrap4") {
 		@include sr-only();
 	} @else {
 		@include visually-hidden();
@@ -59,12 +58,12 @@ body {
 }
 
 .widget_archive {
-
 	select {
 		display: block;
 		width: 100%;
 
-		@if variable-exists("bootstrap4") { // replicates relevant parts of .form-control
+		@if variable-exists("bootstrap4") {
+			// replicates relevant parts of .form-control
 			height: $input-height;
 			padding: $input-padding-y $input-padding-x;
 			font-family: $input-font-family;
@@ -90,8 +89,12 @@ body {
 
 			// Customize the `:focus` state to imitate native WebKit styles.
 			@include form-control-focus($ignore-warning: true);
-		} @else { // replicates relevant parts of .form-select
-			padding: $form-select-padding-y $form-select-indicator-padding $form-select-padding-y $form-select-padding-x;
+		} @else {
+			// replicates relevant parts of .form-select
+			padding: $form-select-padding-y
+				$form-select-indicator-padding
+				$form-select-padding-y
+				$form-select-padding-x;
 			-moz-padding-start: subtract($form-select-padding-x, 3px);
 			font-family: $form-select-font-family;
 
@@ -116,8 +119,10 @@ body {
 				outline: 0;
 
 				@if $enable-shadows {
-
-					@include box-shadow($form-select-box-shadow, $form-select-focus-box-shadow);
+					@include box-shadow(
+						$form-select-box-shadow,
+						$form-select-focus-box-shadow
+					);
 				} @else {
 					// Avoid using mixin so we can pass custom focus shadow properly
 					box-shadow: $form-select-focus-box-shadow;
@@ -149,7 +154,7 @@ article img,
 
 // Skip to content link
 a.skip-link {
-	@if variable-exists('bootstrap4') {
+	@if variable-exists("bootstrap4") {
 		@include sr-only();
 		@include sr-only-focusable();
 	} @else {
@@ -214,8 +219,13 @@ a.skip-link {
 	}
 }
 
-.navbar h1 {
+.navbar .navbar h1 {
 	font-weight: $font-weight-normal;
+}
+
+//todoFB activ Menu item color
+.current-menu-item a {
+	color: $navbar-dark-active-color;
 }
 
 // Galleries
@@ -230,7 +240,7 @@ a.skip-link {
 
 	@for $i from 2 through 9 {
 		.gallery-columns-#{$i} & {
-			max-width: floor( percentage( 1 / $i ) * 100 ) / 100;
+			max-width: floor(percentage(1 / $i) * 100) / 100;
 		}
 	}
 }
@@ -240,9 +250,7 @@ a.skip-link {
 
 // Search Block Widget
 .wp-block-search {
-
 	.wp-block-search__button {
-
 		@if variable-exists("bootstrap4") {
 			margin-left: $form-grid-gutter-width;
 		} @else {
@@ -251,7 +259,6 @@ a.skip-link {
 	}
 
 	&.wp-block-search__button-inside {
-
 		.wp-block-search__inside-wrapper {
 			border: none;
 			padding: 0;
@@ -269,8 +276,7 @@ a.skip-link {
 	}
 }
 
-@if variable-exists('bootstrap4') {
-
+@if variable-exists("bootstrap4") {
 	// Reset Jumbotron default margin
 	.jumbotron {
 		margin-bottom: 0;
