@@ -214,7 +214,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				)
 			)
 		);*/
-		////////////////////////////
+
 		$wp_customize->add_setting(
 			'understrap_num_blog_posts',
 			array(
@@ -243,6 +243,21 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				)
 			)
 		);
+
+
+		////////////////////////////
+		// Countdown settings
+		$wp_customize->add_section(
+			'countdown_section',
+			array(
+				'title'       => __( 'Countdown', 'understrap' ),
+				'capability'  => 'edit_theme_options',
+				'description' => __( 'Einstellungen für den Countdown im Footer Bereich', 'understrap' ),
+				'priority'    => apply_filters( 'understrap_theme_layout_options_priority', 160 ),
+			)
+		);
+
+
 		//Countdown date
 		$wp_customize->add_setting(
 			'understrap_countdown',
@@ -261,7 +276,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				array(
 					'label'       => __( 'Countdown', 'understrap' ),
 					'description' => __( 'Datum des Countdown', 'understrap' ),
-					'section'     => 'understrap_theme_layout_options',
+					'section'     => 'countdown_section',
 					'type'        => 'datetime-local',
 					'priority'    => 20,
 				
@@ -288,7 +303,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				array(
 					'label'       => __( 'Countdown Label', 'understrap' ),
 					'description' => __( 'Text vor dem Countdown', 'understrap' ),
-					'section'     => 'understrap_theme_layout_options',
+					'section'     => 'countdown_section',
 					'type'        => 'input',
 					'priority'    => 20,
 				
@@ -297,7 +312,8 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 			)
 		);
 
-		/////////////////////////
+		// Countdown settings Ende
+		////////////////////////////
 
 		$understrap_site_info = $wp_customize->get_setting( 'understrap_site_info_override' );
 		if ( $understrap_site_info instanceof WP_Customize_Setting ) {
