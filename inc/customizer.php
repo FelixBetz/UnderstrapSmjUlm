@@ -200,7 +200,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				'capability'        => 'edit_theme_options',
 			)
 		);
-
+		/* todoFB
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize,
@@ -213,7 +213,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 					'priority'    => 20,
 				)
 			)
-		);
+		);*/
 		////////////////////////////
 		$wp_customize->add_setting(
 			'understrap_num_blog_posts',
@@ -243,7 +243,59 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				)
 			)
 		);
+		//Countdown date
+		$wp_customize->add_setting(
+			'understrap_countdown',
+			array(
+				'default'           => 6,
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
 
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_countdown',
+				array(
+					'label'       => __( 'Countdown', 'understrap' ),
+					'description' => __( 'Datum des Countdown', 'understrap' ),
+					'section'     => 'understrap_theme_layout_options',
+					'type'        => 'datetime-local',
+					'priority'    => 20,
+				
+					
+				)
+			)
+		);
+
+		//Countdown label
+		$wp_customize->add_setting(
+			'understrap_countdown_label',
+			array(
+				'default'           => "",
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_countdown_label',
+				array(
+					'label'       => __( 'Countdown Label', 'understrap' ),
+					'description' => __( 'Text vor dem Countdown', 'understrap' ),
+					'section'     => 'understrap_theme_layout_options',
+					'type'        => 'input',
+					'priority'    => 20,
+				
+					
+				)
+			)
+		);
 
 		/////////////////////////
 
