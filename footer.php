@@ -22,7 +22,10 @@ $container = get_theme_mod( 'understrap_container_type' );
     <ul class="navbar-nav">
 	<?php
 
-$menuitems = wp_get_nav_menu_items( 7, array( 'order' => 'DESC' ) );//todoFB make menu configurable
+
+$menuLocations = get_nav_menu_locations(); 
+$footerMenuID = $menuLocations['footer-menu'];
+$menuitems = wp_get_nav_menu_items($footerMenuID, array( 'order' => 'DESC' ) );
 foreach($menuitems as $item)
 {
       echo '<li class="nav-item active">';
