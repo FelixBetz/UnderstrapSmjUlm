@@ -26,7 +26,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 <?php do_action( 'wp_body_open' ); ?>
 
 <!-- todoFB -->
-<div class="alert alert-danger" role="alert">
+<div class="alert alert-danger m-0" role="alert">
   Unsere Website befindet sich gerade im Umbau. Deswegen sind noch nicht alle Funktionen verfügbar!
 </div>
 <div class="site" id="page">
