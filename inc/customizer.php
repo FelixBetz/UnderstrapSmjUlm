@@ -462,36 +462,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 			)
 		);
 
-		//background-image opacity
-		$wp_customize->add_setting(
-			'understrap_jumbotron_image_opacity',
-			array(
-				'default'           => 0.5,
-				'type'              => 'theme_mod',
-				'sanitize_callback' => 'wp_kses_post',
-				'capability'        => 'edit_theme_options',
-			)
-		);
 
-		$wp_customize->add_control(
-			new WP_Customize_Control(
-				$wp_customize,
-				'understrap_jumbotron_image_opacity',
-				array(
-					'label'       => __( 'Transparenz', 'understrap' ),
-					'description' => __( 'Transparenz des Hintergrund Bildes (0.0 bis 1.0)', 'understrap' ),
-					'section'     => 'jumbotron_section',
-					'type'        => 'number',
-					'priority'    => 20,
-					'input_attrs' => array(
-						'min' => 0,
-						'max' => 1,
-						'step' => 0.01,
-					  ),
-				
-				)
-			)
-		);
 		//background-image x-offset
 		$wp_customize->add_setting(
 			'understrap_jumbotron_image_x_offset',
@@ -569,6 +540,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 					'understrap_jumbotron_image',
 					array(
 						'label' => _( 'Hintergrundbild', 'understrap' ),
+						'description' => _( 'Hintergrundbild', 'understrap' ),
 						'section' => 'jumbotron_section',
 						'mime_type' => 'image',
 						'priority'    => 20,
