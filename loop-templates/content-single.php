@@ -24,7 +24,10 @@ defined( 'ABSPATH' ) || exit;
 					</div>
 
 					<div class="d-flex">
-						<?php understrap_posted_on(); ?>
+						<div>
+							<?php understrap_posted_on(); ?>
+						</div>
+						<div>
 							<?php 
 								$categories = get_the_category();
 								if ( ! empty( $categories ) ) {
@@ -33,7 +36,7 @@ defined( 'ABSPATH' ) || exit;
 									}
 								}
 							?>
-					
+						</div>
 					</div>
 				</div>
 			</div>
