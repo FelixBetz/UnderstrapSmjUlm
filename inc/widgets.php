@@ -309,17 +309,6 @@ if ( ! function_exists( 'understrap_widgets_init' ) ) {
 			)
 		);
 
-		register_sidebar(
-			array(
-				'name'          => __( 'Hero Canvas', 'understrap' ),
-				'id'            => 'herocanvas',
-				'description'   => __( 'Full size canvas hero area for Bootstrap and other custom HTML markup', 'understrap' ),
-				'before_widget' => '',
-				'after_widget'  => '',
-				'before_title'  => '',
-				'after_title'   => '',
-			)
-		);
 
 		register_sidebar(
 			array(

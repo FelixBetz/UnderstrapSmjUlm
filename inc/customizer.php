@@ -315,6 +315,251 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 		// Countdown settings Ende
 		////////////////////////////
 
+		////////////////////////////
+		// jumbotron settings
+		$wp_customize->add_section(
+			'jumbotron_section',
+			array(
+				'title'       => __( 'Werbung (Startseite)', 'understrap' ),
+				'capability'  => 'edit_theme_options',
+				'description' => __( 'Einstellunge für den Werbe - Jumbotron auf der Startseite', 'understrap' ),
+				'priority'    => apply_filters( 'understrap_theme_layout_options_priority', 0 ),
+			)
+		);
+
+		
+
+
+		//Headline
+		$wp_customize->add_setting(
+			'understrap_jumbotron_headline',
+			array(
+				'default'           => '',
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_jumbotron_headline',
+				array(
+					'label'       => __( 'Überschrift', 'understrap' ),
+					
+					'section'     => 'jumbotron_section',
+					'type'        => 'text',
+					'priority'    => 20,
+				
+					
+				)
+			)
+		);
+
+		//Paragraph
+		$wp_customize->add_setting(
+			'understrap_jumbotron_paragrahp',
+			array(
+				'default'           => '',
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_jumbotron_paragrahp',
+				array(
+					'label'       => __( 'Paragraph', 'understrap' ),
+					'description' => __( 'Text des Paragraphs', 'understrap' ),
+					'section'     => 'jumbotron_section',
+					'type'        => 'textarea',
+					'priority'    => 20,
+				
+					
+				)
+			)
+		);
+
+		//Button Text
+		$wp_customize->add_setting(
+			'understrap_jumbotron_button_text',
+			array(
+				'default'           => '',
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_jumbotron_button_text',
+				array(
+					'label'       => __( 'Button Text', 'understrap' ),
+					'section'     => 'jumbotron_section',
+					'type'        => 'text',
+					'priority'    => 20,
+				
+					
+				)
+			)
+		);
+		//Button Link
+		$wp_customize->add_setting(
+			'understrap_jumbotron_button_link',
+			array(
+				'default'           => '',
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_jumbotron_button_link',
+				array(
+					'label'       => __( 'Button Link', 'understrap' ),
+					'description' => __( 'Link der beim Button Klick aufgerufen wird (z.B. /online-anmeldung', 'understrap' ),
+					'section'     => 'jumbotron_section',
+					'type'        => 'text',
+					'priority'    => 20,
+				
+					
+				)
+			)
+		);
+
+		//active
+		$wp_customize->add_setting(
+			'understrap_jumbotron_isActive',
+			array(
+				'default'           => True,
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_jumbotron_isActive',
+				array(
+					'label'       => __( 'Aktiv', 'understrap' ),
+					'description' => __( 'Soll der Werbe - Jumbotron angezeigt werden?', 'understrap' ),
+					'section'     => 'jumbotron_section',
+					'type'        => 'checkbox',
+					'priority'    => 20,
+				
+				)
+			)
+		);
+
+		//background-image opacity
+		$wp_customize->add_setting(
+			'understrap_jumbotron_image_opacity',
+			array(
+				'default'           => 0.5,
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_jumbotron_image_opacity',
+				array(
+					'label'       => __( 'Transparenz', 'understrap' ),
+					'description' => __( 'Transparenz des Hintergrund Bildes (0.0 bis 1.0)', 'understrap' ),
+					'section'     => 'jumbotron_section',
+					'type'        => 'number',
+					'priority'    => 20,
+					'input_attrs' => array(
+						'min' => 0,
+						'max' => 1,
+						'step' => 0.01,
+					  ),
+				
+				)
+			)
+		);
+		//background-image x-offset
+		$wp_customize->add_setting(
+			'understrap_jumbotron_image_x_offset',
+			array(
+				'default'           => 50,
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_jumbotron_image_x_offset',
+				array(
+					'label'       => __( 'X-Offset', 'understrap' ),
+					'description' => __( 'Hintergrund Bild x-Offset (0% bis 100%)', 'understrap' ),
+					'section'     => 'jumbotron_section',
+					'type'        => 'number',
+					'priority'    => 20,
+					'input_attrs' => array(
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					  ),
+				
+				)
+			)
+		);
+			//background-image x-offset
+			$wp_customize->add_setting(
+				'understrap_jumbotron_image_y_offset',
+				array(
+					'default'           => 50,
+					'type'              => 'theme_mod',
+					'sanitize_callback' => 'wp_kses_post',
+					'capability'        => 'edit_theme_options',
+				)
+			);
+	
+			$wp_customize->add_control(
+				new WP_Customize_Control(
+					$wp_customize,
+					'understrap_jumbotron_image_y_offset',
+					array(
+						'label'       => __( 'Y-Offset', 'understrap' ),
+						'description' => __( 'Hintergrund Bild x-Offset (0% bis 100%)', 'understrap' ),
+						'section'     => 'jumbotron_section',
+						'type'        => 'number',
+						'priority'    => 20,
+						'input_attrs' => array(
+							'min' => 0,
+							'max' => 100,
+							'step' => 1,
+						  ),
+					
+					)
+				)
+			);
+	
+
+		// jumbotron settings Ende
+		////////////////////////////
+
+
+
+
 		$understrap_site_info = $wp_customize->get_setting( 'understrap_site_info_override' );
 		if ( $understrap_site_info instanceof WP_Customize_Setting ) {
 			$understrap_site_info->transport = 'postMessage';
