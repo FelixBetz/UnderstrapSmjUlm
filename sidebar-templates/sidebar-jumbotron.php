@@ -22,17 +22,23 @@ defined( 'ABSPATH' ) || exit;
 
     $jumptronIsActive = get_theme_mod('understrap_jumbotron_isActive');
 
+    //Text Settings
     $jumptronHeadline = get_theme_mod('understrap_jumbotron_headline');
     $jumptronParagraph = get_theme_mod('understrap_jumbotron_paragrahp');
 
+    //Button Settings
     $jumptronButtonText = get_theme_mod('understrap_jumbotron_button_text');
     $jumptronButtonLink = get_theme_mod('understrap_jumbotron_button_link');
 
+    //Image settings
     $jumptronBgOpacity = get_theme_mod('understrap_jumbotron_image_opacity');
+  
     $jumptronBgXoffst = parseOffset(get_theme_mod('understrap_jumbotron_image_x_offset'));
     $jumptronBgYoffst = parseOffset(get_theme_mod('understrap_jumbotron_image_y_offset'));
 
-    
+    $jumptronBgImage = get_theme_mod('understrap_jumbotron_image');
+
+    $jumptronBgImageUrl = wp_get_attachment_url( intval($jumptronBgImage) );
 
 
     if($jumptronIsActive){
@@ -40,7 +46,7 @@ defined( 'ABSPATH' ) || exit;
 <!-- start -->
 <style>
 .jumbotron_background{
-  background: url('/wp-content/uploads/2023/01/2022_zeltlager_team_2022.jpg');
+  background: url( "<?php echo $jumptronBgImageUrl; ?>");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: <?php echo $jumptronBgXoffst . " " . $jumptronBgYoffst; ?>;
@@ -59,6 +65,9 @@ defined( 'ABSPATH' ) || exit;
   z-index: 1;
 }
 </style>
+
+
+
 <div class="jumbotron jumbotron-fluid text-center bg-light m-0 p-3 jumbotron_content">
   <div class="jumbotron_background"> </div>
   <div class="container-fluid">

@@ -553,6 +553,26 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				)
 			);
 	
+		//background-image
+		$wp_customize->add_setting(
+			'understrap_jumbotron_image',
+			array(
+				'default'           => '',
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+		$wp_customize->add_control(
+				new WP_Customize_Media_Control(
+					$wp_customize,
+					'understrap_jumbotron_image',
+					array(
+						'label' => _( 'Hintergrundbild', 'understrap' ),
+						'section' => 'jumbotron_section',
+						'mime_type' => 'image',
+						'priority'    => 20,
+			  ) ) );
 
 		// jumbotron settings Ende
 		////////////////////////////
