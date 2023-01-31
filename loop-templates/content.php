@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<!-- meta start -->
 			<?php if ( 'post' === get_post_type() ) : ?>
-				<div class="entry-meta">
+				<div class="d-flex justify-content-between align-items-center">
 					<?php understrap_posted_on(); ?> 
 					<?php 
 						$categories = get_the_category();
