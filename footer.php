@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit;
 $container = get_theme_mod( 'understrap_container_type' );
 ?>
 
+<footer class="footer mt-auto">
+
 <?php get_template_part( 'sidebar-templates/sidebar', 'footerfull' ); ?>
 
 
@@ -69,6 +71,7 @@ foreach($menuitems as $item)
 
 <?php wp_footer(); ?>
 
+</footer>
 </body>
 
 </html>
