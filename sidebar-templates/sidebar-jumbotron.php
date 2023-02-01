@@ -34,6 +34,8 @@ defined( 'ABSPATH' ) || exit;
     $jumptronBgXoffst = parseOffset(get_theme_mod('understrap_jumbotron_image_x_offset'));
     $jumptronBgYoffst = parseOffset(get_theme_mod('understrap_jumbotron_image_y_offset'));
 
+    $jumptronBgYAnimate = ($jumptronBgYoffst -30 > 0) ? $jumptronBgYoffst - 30 : 0;
+
     $jumptronBgImage = get_theme_mod('understrap_jumbotron_image');
 
     $jumptronBgImageUrl = wp_get_attachment_url( intval($jumptronBgImage) );
@@ -50,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
         background-size: cover;
         background-position: <?php echo $jumptronBgXoffst . "% " . $jumptronBgYoffst."%"; ?>;
 
-        background-image: linear-gradient(to bottom,rgba(255,255,255,0.6) 0%, rgba(0,0,0,0.6) 80%),url(<?php echo $jumptronBgImageUrl; ?>);
+        background-image: linear-gradient(to bottom,rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.6) 80%),url(<?php echo $jumptronBgImageUrl; ?>);
 
         position: absolute;
         z-index: -1;
@@ -60,10 +62,10 @@ defined( 'ABSPATH' ) || exit;
         right: 0;
         width: 100%;
         height: 100%;
-        /*
-        -webkit-filter: blur(4px);
-        filter: blur(4x);*/
-        animation: animation_bg_image 5s ease-in;
+        
+        -webkit-filter: blur(1px);
+        filter: blur(1px);
+        animation: animation_bg_image 4s ease-in; 
     }
 
     .jumbotron_content{
@@ -74,15 +76,18 @@ defined( 'ABSPATH' ) || exit;
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 
-    .custom-headline {
-     
+    .custom-box {
+   
 }
-.custom-headline h1 {
-  text-shadow: 0px 0px 5px #067fc1, 0px 0px 10px #2162ba,  2px 2px 15px #082754;
-
+.custom-headline {
+  /*text-shadow: 0px 0px 3px #fff, 0px 0px 3px #fff, 2px 2px 4px #fff;*/
+  font-weight: 1000;
 }
 
+.custom-paragraph {
 
+  font-weight: 500;
+}
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
     .custom-button{
@@ -91,7 +96,7 @@ defined( 'ABSPATH' ) || exit;
 
     @keyframes animation_bg_image {
       0% {
-        background-position: 10% 45%;
+        background-position:  <?php echo $jumptronBgXoffst . "% " . $jumptronBgYAnimate."%"; ?>;
       }
       100% {
         background-position: <?php echo $jumptronBgXoffst . "% " . $jumptronBgYoffst."%"; ?>;
@@ -150,14 +155,13 @@ defined( 'ABSPATH' ) || exit;
 
 </style>
 
-<div class="jumbotron jumbotron-fluid text-center  text-white p-5  jumbotron_content" >
+<div class="jumbotron jumbotron-fluid text-center  text-white p-4 jumbotron_content" >
   <div class="jumbotron_background bg-cover"> </div>
   <div class="container-fluid">
-        <div class="custom-headline">
-           <h1 class="display-1 fw-bold mb-1 "><?php echo $jumptronHeadline; ?></h1>
-        </div>
-        <p class="lead"><?php echo $jumptronParagraph; ?></p>
-        <a class="btn btn-secondary btn-lg rounded-4 custom-button" href="<?php echo $jumptronButtonLink; ?>" role="button" aria-pressed="true">
+
+        <h1 class="display-1  custom-headline text-white"><?php echo $jumptronHeadline; ?></h1>
+      
+        <a class="btn btn-outline-secondary btn-lg rounded-3 custom-button text-white border border-5 custom-paragraph"  href="<?php echo $jumptronButtonLink; ?>" role="button" aria-pressed="true">
             <?php echo $jumptronButtonText; ?>
         </a>
   </div>
