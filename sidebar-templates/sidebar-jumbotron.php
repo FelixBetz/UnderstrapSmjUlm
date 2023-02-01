@@ -71,14 +71,22 @@ defined( 'ABSPATH' ) || exit;
         z-index: 1;
 
     }
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+
+    .custom-headline {
+     
+}
+.custom-headline h1 {
+  text-shadow: 0px 0px 5px #067fc1, 0px 0px 10px #2162ba,  2px 2px 15px #082754;
+
+}
+
+
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
     .custom-button{
-      background: #485563;  /* fallback for old browsers */
-      background: -webkit-linear-gradient(to right, #29323c, #485563);  /* Chrome 10-25, Safari 5.1-6 */
-      background: linear-gradient(to right, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-      background-size: 400% 400%;
-      animation: animate_top 5s ease infinite;
+      color: linear-gradient(to bottom left, #553c9a, #ee4b2b);
     }
 
     @keyframes animation_bg_image {
@@ -145,9 +153,11 @@ defined( 'ABSPATH' ) || exit;
 <div class="jumbotron jumbotron-fluid text-center  text-white p-5  jumbotron_content" >
   <div class="jumbotron_background bg-cover"> </div>
   <div class="container-fluid">
-        <h1 class="display-1 fw-bold mb-1"><?php echo $jumptronHeadline; ?></h1>
+        <div class="custom-headline">
+           <h1 class="display-1 fw-bold mb-1 "><?php echo $jumptronHeadline; ?></h1>
+        </div>
         <p class="lead"><?php echo $jumptronParagraph; ?></p>
-        <a class="btn btn-outline-light btn-lg rounded-2 custom-button" href="<?php echo $jumptronButtonLink; ?>" role="button" aria-pressed="true">
+        <a class="btn btn-secondary btn-lg rounded-4 custom-button" href="<?php echo $jumptronButtonLink; ?>" role="button" aria-pressed="true">
             <?php echo $jumptronButtonText; ?>
         </a>
   </div>
