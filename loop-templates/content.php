@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
 						$categories = get_the_category();
 						if ( ! empty( $categories ) ) {
 							foreach($categories as $category) { 
-								echo '<a style="text-decoration: none;" href="'. get_category_link( $category->term_id)  .'" <span class="ml-2 badge badge-pill">' . $category->name . ' </span></a>'; 
+								echo '<a style="text-decoration: none;" href="'. get_category_link( $category->term_id)  .'" <span class="ml-2 badge badge-pill bg-secondary">' . $category->name . ' </span></a>'; 
 							}
 						}
 

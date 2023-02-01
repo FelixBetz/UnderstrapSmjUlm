@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 	<header class="entry-header">
 		<div class="d-flex  align-items-center">
 			<div class="mr-1">
-				<img style="width: 100px; border: 1px solid black; border-radius: 50px;"
+				<img style="width: 100px;" class="border border-primary border-2 rounded-circle"
 				src="<?php echo get_the_post_thumbnail_url( $post->ID, 'thumbnail' ); ?>" />
 			</div>
 			<div >
@@ -31,8 +31,8 @@ defined( 'ABSPATH' ) || exit;
 							<?php 
 								$categories = get_the_category();
 								if ( ! empty( $categories ) ) {
-									foreach($categories as $category) { 
-										echo '<a style="text-decoration: none;" href="'. get_category_link( $category->term_id)  .'" <span class="ml-2 badge badge-pill">' . $category->name . ' </span></a>'; 
+									foreach($categories as $category) {  
+										echo '<a style="text-decoration: none;" href="'. get_category_link( $category->term_id)  .'" <span class="ml-2 badge badge-pill bg-primary">' . $category->name . ' </span></a>'; 
 									}
 								}
 							?>
