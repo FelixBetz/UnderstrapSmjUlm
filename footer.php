@@ -19,7 +19,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 
 
-<nav class="d-flex justify-content-center  navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="d-flex justify-content-center  navbar navbar-expand-lg navbar-dark bg-secondary">
 
     <ul class="navbar-nav">
 	<?php
@@ -39,35 +39,6 @@ foreach($menuitems as $item)
 </nav>
 
 
-<!-- todoFB
-<div class="wrapper" id="wrapper-footer">
-
-	<div class="<?php echo esc_attr( $container ); ?>">
-
-		<div class="row">
-
-			<div class="col-md-12">
-
-				<footer class="site-footer" id="colophon">
-
-					<div class="site-info">
-
-						<?php understrap_site_info(); ?>
-
-					</div>
-
-				</footer>
-
-			</div>
-
-		</div>
-
-	</div>
-
-</div>
-
-<?php // Closing div#page from header.php. ?>
-</div> -->
 
 <?php wp_footer(); ?>
 
