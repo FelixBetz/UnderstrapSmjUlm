@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
 			<!-- card-title start -->
 			<h4 class="card-title">
 				<a href= "<?php echo esc_url( get_permalink() ) ; ?>">
-					<?php the_title(sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ),'</a></h2>');?>
+					<?php the_title(sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark" class="link-secondary">', esc_url( get_permalink() ) ),'</a></h2>');?>
 				</a>
 			</h4>
 			<!-- card-title end -->

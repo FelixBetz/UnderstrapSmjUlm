@@ -106,7 +106,7 @@ if ( ! function_exists( 'understrap_add_block_widget_search_classes' ) ) {
 		$replace = array(
 			'wp-block-search__input form-control ',
 			'wp-block-search__input form-control"',
-			'wp-block-search__button btn btn-primary ',
+			'wp-block-search__button btn btn-secondary ',
 		);
 
 		if ( isset( $block['attrs']['buttonPosition'] ) && 'button-inside' === $block['attrs']['buttonPosition'] ) {
