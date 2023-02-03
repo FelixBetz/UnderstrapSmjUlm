@@ -37,6 +37,12 @@ $container = get_theme_mod( 'understrap_container_type' );
 			<main class="site-main" id="main">
 			<div class="row">
 				<?php
+				$CATEGORY_POSTS = intval(get_theme_mod('understrap_blog_category'));
+
+				if(  1 != is_int($CATEGORY_POSTS) || ($CATEGORY_POSTS <0)) {
+					$CATEGORY_POSTS =0;
+				}
+				query_posts('&cat='.$CATEGORY_POSTS );
 				if ( have_posts() ) {
 					// Start the Loop.
 					$cnt_posts =0;

@@ -230,8 +230,8 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				$wp_customize,
 				'understrap_num_blog_posts',
 				array(
-					'label'       => __( 'Number of blog posts', 'understrap' ),
-					'description' => __( 'Number of blog posts to be display on the blog page.', 'understrap' ),
+					'label'       => __( 'Anzahl Blog Beiträge', 'understrap' ),
+					'description' => __( 'Anzahl der Blog Beiträge auf der Startseite.', 'understrap' ),
 					'section'     => 'understrap_theme_layout_options',
 					'type'        => 'number',
 					'priority'    => 20,
@@ -240,6 +240,42 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 						'max' => 100,
 						'step' => 1,
 					  ),
+				)
+			)
+		);
+
+
+		//blog category
+		$wp_customize->add_setting(
+			'understrap_blog_category',
+			array(
+				'default'           => 0,
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+		
+		$select_categories = array();
+		$categories = get_categories( );
+	
+		foreach( $categories as $category ) {
+			$category_id = get_cat_ID( $category->name );
+			$select_categories[ $category_id ] = __( $category->name);
+		}
+
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_blog_category',
+				array(
+					'label'       => __( 'Blog Kategorie', 'understrap' ),
+					'description' => __( 'Blog Kategorie die auf der Startseite angezeigt', 'understrap' ),
+					'section'     => 'understrap_theme_layout_options',
+					'type'        => 'select',
+					'priority'    => 20,
+					'choices' => $select_categories,
 				)
 			)
 		);
