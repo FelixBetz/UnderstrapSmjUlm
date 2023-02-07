@@ -575,8 +575,8 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 					$wp_customize,
 					'understrap_jumbotron_image',
 					array(
-						'label' => _( 'Hintergrundbild', 'understrap' ),
-						'description' => _( 'Hintergrundbild', 'understrap' ),
+						'label' => __( 'Hintergrundbild', 'understrap' ),
+						'description' => __( 'Hintergrundbild', 'understrap' ),
 						'section' => 'jumbotron_section',
 						'mime_type' => 'image',
 						'priority'    => 20,
