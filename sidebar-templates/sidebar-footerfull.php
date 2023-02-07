@@ -106,25 +106,22 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 
 
-<?php if ( is_active_sidebar( 'footerfull' ) ) : ?>
+
 
 	<!-- ******************* The Footer Full-width Widget Area ******************* -->
 
 	<div class="wrapper" id="wrapper-footer-full" role="complementary">
-
 		<div class="<?php echo esc_attr( $container ); ?>" id="footer-full-content" tabindex="-1">
+			<?php if ( is_active_sidebar( 'footerfull' ) ) : ?>
+				<div class="row">
+					<?php dynamic_sidebar( 'footerfull' ); ?>
+				</div>
+			<?php endif; ?>
 
 			<div class="row">
-
-				<?php dynamic_sidebar( 'footerfull' ); ?>
-
-			</div>
-			<div class="row">
-			
 				<div class="col d-flex justify-content-center">
-					
 					<div class="timestamp-container m-0">
-  					<h1 id="headline"> <?php echo $countdownLabel ?></h1>
+  						<h1 id="headline"> <?php echo $countdownLabel ?></h1>
 					<div id="countdown m-0">
 						<ul class="mt-0 mb-0">
 						<li><span id="days"></span>Tage</li>
@@ -141,4 +138,3 @@ $container = get_theme_mod( 'understrap_container_type' );
 	</div><!-- #wrapper-footer-full -->
 
 	<?php
-endif;
