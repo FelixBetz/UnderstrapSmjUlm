@@ -93,15 +93,11 @@ $container = get_theme_mod( 'understrap_container_type' );
 <?php
 	$countdownDate = get_theme_mod('understrap_countdown');
 	$countdownLabel = get_theme_mod('understrap_countdown_label');
-
-	$a = strptime($countdownDate, '%Y -%m-%dT%H:%M');
-	$timestamp = mktime($a['tm_hour'], $a['tm_min'], $a['tm_sec'], $a['tm_mon']+1, $a['tm_mday'], $a['tm_year']+1900);
-	$timestamp -= 3600 ; //todoFB convert to GMT
-	echo "
-	<script type=\"text/javascript\">
-		startCountdown(" .$timestamp. ");
-	</script>
-";
+	$timestamp = DateTime::createFromFormat('Y-m-d*H:i', $countdownDate , new DateTimeZone(wp_timezone_string()));
+		
+	if ($timestamp ) {
+		echo "<script type=\"text/javascript\">startCountdown(" .$timestamp->getTimestamp(). ");</script>";
+	} 
 ?>
 
 
