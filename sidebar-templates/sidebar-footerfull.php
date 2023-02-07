@@ -36,12 +36,14 @@ $container = get_theme_mod( 'understrap_container_type' );
   text-transform: uppercase;
   padding-top: 0px;
   padding-bottom: 0px;
+  text-align: center;
 }
 
 .timestamp-container li span {
   display: block;
   font-size: 4.5rem;
   margin: 0px;
+  text-align: center;
 }
 
 </style>
@@ -119,7 +121,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 					<div class="timestamp-container m-0">
   						<h1 id="headline"> <?php echo $countdownLabel ?></h1>
 					<div id="countdown m-0">
-						<ul class="mt-0 mb-0">
+						<ul class="m-0 p-0">
 						<li><span id="days"></span>Tage</li>
 						<li><span id="hours"></span>Stunden</li>
 						<li><span id="minutes"></span>Minuten</li>

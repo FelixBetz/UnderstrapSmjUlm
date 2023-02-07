@@ -32,7 +32,7 @@ $container = get_theme_mod( 'understrap_container_type' );
         $menuitems = wp_get_nav_menu_items($footerMenuID, array( 'order' => 'DESC' ) );
         foreach($menuitems as $item)
         {
-            echo '<li class="nav-item active">';
+            echo '<li class="nav-item active text-center">';
             echo '<a class="nav-link" href="'. $item->url  . '">'. $item->title  . '<span class="sr-only">(current)</span></a>';
             echo '</li>';
         }
