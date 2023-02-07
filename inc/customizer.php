@@ -348,6 +348,33 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 			)
 		);
 
+		//Countdown label
+		$wp_customize->add_setting(
+			'understrap_countdown_enabled',
+			array(
+				'default'           => "",
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_countdown_enabled',
+				array(
+					'label'       => __( 'Aktiv', 'understrap' ),
+					'description' => __( 'Soll der Countdown angezeigt werden', 'understrap' ),
+					'section'     => 'countdown_section',
+					'type'        => 'checkbox',
+					'priority'    => 20,
+				
+					
+				)
+			)
+		);
+
 		// Countdown settings Ende
 		////////////////////////////
 

@@ -100,6 +100,9 @@ $container = get_theme_mod( 'understrap_container_type' );
 	if ($timestamp ) {
 		echo "<script type=\"text/javascript\">startCountdown(" .$timestamp->getTimestamp(). ");</script>";
 	} 
+
+	$is_sidebar_active = is_active_sidebar( 'footerfull' );
+	$is_countdown_active =  get_theme_mod('understrap_countdown_enabled');
 ?>
 
 
@@ -108,31 +111,34 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 	<!-- ******************* The Footer Full-width Widget Area ******************* -->
 
-	<div class="wrapper" id="wrapper-footer-full" role="complementary">
-		<div class="<?php echo esc_attr( $container ); ?>" id="footer-full-content" tabindex="-1">
-			<?php if ( is_active_sidebar( 'footerfull' ) ) : ?>
-				<div class="row">
-					<?php dynamic_sidebar( 'footerfull' ); ?>
-				</div>
-			<?php endif; ?>
+	<?php if ($is_sidebar_active || $is_countdown_active ) : ?>	
+		<div class="wrapper" id="wrapper-footer-full" role="complementary">
+			<div class="<?php echo esc_attr( $container ); ?>" id="footer-full-content" tabindex="-1">
+				<?php if ($is_sidebar_active  ) : ?>
+					<div class="row">
+						<?php dynamic_sidebar( 'footerfull' ); ?>
+					</div>
+				<?php endif; ?>
 
-			<div class="row">
-				<div class="col d-flex justify-content-center">
-					<div class="timestamp-container m-0">
-  						<h1 id="headline"> <?php echo $countdownLabel ?></h1>
-					<div id="countdown m-0">
-						<ul class="m-0 p-0">
-						<li><span id="days"></span>Tage</li>
-						<li><span id="hours"></span>Stunden</li>
-						<li><span id="minutes"></span>Minuten</li>
-						<li><span id="seconds"></span>Sekunden</li>
-						</ul>
+				<?php if ($is_countdown_active  ) : ?>
+					<div class="row">
+						<div class="col d-flex justify-content-center">
+							<div class="timestamp-container m-0">
+								<h1 id="headline"> <?php echo $countdownLabel ?></h1>
+							<div id="countdown m-0">
+								<ul class="m-0 p-0">
+								<li><span id="days"></span>Tage</li>
+								<li><span id="hours"></span>Stunden</li>
+								<li><span id="minutes"></span>Minuten</li>
+								<li><span id="seconds"></span>Sekunden</li>
+								</ul>
+							</div>
+							</div>
+						</div>
 					</div>
-					</div>
-				</div>
+				<?php endif; ?>
 			</div>
-		</div>
 
-	</div><!-- #wrapper-footer-full -->
-
+		</div><!-- #wrapper-footer-full -->
 	<?php
+	 endif;
