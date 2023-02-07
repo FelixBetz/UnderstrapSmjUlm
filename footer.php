@@ -25,15 +25,18 @@ $container = get_theme_mod( 'understrap_container_type' );
 	<?php
 
 
-$menuLocations = get_nav_menu_locations(); 
-$footerMenuID = $menuLocations['footer-menu'];
-$menuitems = wp_get_nav_menu_items($footerMenuID, array( 'order' => 'DESC' ) );
-foreach($menuitems as $item)
-{
-      echo '<li class="nav-item active">';
-	  echo '<a class="nav-link" href="'. $item->url  . '">'. $item->title  . '<span class="sr-only">(current)</span></a>';
-      echo '</li>';
-	}
+    $menuLocations = get_nav_menu_locations(); 
+    if(isset( $menuLocations['footer-menu'])){
+        
+        $footerMenuID = $menuLocations['footer-menu'];
+        $menuitems = wp_get_nav_menu_items($footerMenuID, array( 'order' => 'DESC' ) );
+        foreach($menuitems as $item)
+        {
+            echo '<li class="nav-item active">';
+            echo '<a class="nav-link" href="'. $item->url  . '">'. $item->title  . '<span class="sr-only">(current)</span></a>';
+            echo '</li>';
+        }
+    }
 	?>
     </ul>
 </nav>
