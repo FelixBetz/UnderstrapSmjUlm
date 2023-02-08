@@ -215,70 +215,9 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 			)
 		);*/
 
-		$wp_customize->add_setting(
-			'understrap_num_blog_posts',
-			array(
-				'default'           => 6,
-				'type'              => 'theme_mod',
-				'sanitize_callback' => 'wp_kses_post',
-				'capability'        => 'edit_theme_options',
-			)
-		);
-
-		$wp_customize->add_control(
-			new WP_Customize_Control(
-				$wp_customize,
-				'understrap_num_blog_posts',
-				array(
-					'label'       => __( 'Anzahl Blog Beiträge', 'understrap' ),
-					'description' => __( 'Anzahl der Blog Beiträge auf der Startseite.', 'understrap' ),
-					'section'     => 'understrap_theme_layout_options',
-					'type'        => 'number',
-					'priority'    => 20,
-					'input_attrs' => array(
-						'min' => 1,
-						'max' => 100,
-						'step' => 1,
-					  ),
-				)
-			)
-		);
-
-
-		//blog category
-		$wp_customize->add_setting(
-			'understrap_blog_category',
-			array(
-				'default'           => 0,
-				'type'              => 'theme_mod',
-				'sanitize_callback' => 'wp_kses_post',
-				'capability'        => 'edit_theme_options',
-			)
-		);
-		
-		$select_categories = array();
-		$categories = get_categories( );
 	
-		foreach( $categories as $category ) {
-			$category_id = get_cat_ID( $category->name );
-			$select_categories[ $category_id ] = __( $category->name);
-		}
 
-
-		$wp_customize->add_control(
-			new WP_Customize_Control(
-				$wp_customize,
-				'understrap_blog_category',
-				array(
-					'label'       => __( 'Blog Kategorie', 'understrap' ),
-					'description' => __( 'Blog Kategorie die auf der Startseite angezeigt', 'understrap' ),
-					'section'     => 'understrap_theme_layout_options',
-					'type'        => 'select',
-					'priority'    => 20,
-					'choices' => $select_categories,
-				)
-			)
-		);
+		
 
 
 		////////////////////////////
@@ -377,6 +316,118 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 
 		// Countdown settings Ende
 		////////////////////////////
+
+		////////////////////////////
+		// News Startseite Start
+		$wp_customize->add_section(
+			'undertrap_news_home',
+			array(
+				'title'       => __( 'Startseite News', 'understrap' ),
+				'capability'  => 'edit_theme_options',
+				'description' => __( 'Einstellungen für die News auf der Startseite', 'understrap' ),
+				'priority'    => apply_filters( 'understrap_theme_layout_options_priority', 0 ),
+			)
+		);
+
+		//blog category
+		$wp_customize->add_setting(
+			'understrap_blog_category',
+			array(
+				'default'           => 0,
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+		
+		$select_categories = array();
+		$categories = get_categories( );
+	
+		foreach( $categories as $category ) {
+			$category_id = get_cat_ID( $category->name );
+			$select_categories[ $category_id ] = __( $category->name);
+		}
+
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_blog_category',
+				array(
+					'label'       => __( 'Blog Kategorie', 'understrap' ),
+					'description' => __( 'Blog Kategorie die auf der Startseite angezeigt', 'understrap' ),
+					'section'     => 'undertrap_news_home',
+					'type'        => 'select',
+					'priority'    => 20,
+					'choices' => $select_categories,
+				)
+			)
+		);
+
+		//num blog posts
+		$wp_customize->add_setting(
+			'understrap_num_blog_posts',
+			array(
+				'default'           => 6,
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_num_blog_posts',
+				array(
+					'label'       => __( 'Anzahl Blog Beiträge', 'understrap' ),
+					'description' => __( 'Anzahl der Blog Beiträge auf der Startseite.', 'understrap' ),
+					'section'     => 'undertrap_news_home',
+					'type'        => 'number',
+					'priority'    => 20,
+					'input_attrs' => array(
+						'min' => 1,
+						'max' => 100,
+						'step' => 1,
+					  ),
+				)
+			)
+		);
+
+
+		$wp_customize->add_setting(
+			'understrap_expert_length',
+			array(
+				'default'           => 20,
+				'type'              => 'theme_mod',
+				'sanitize_callback' => 'wp_kses_post',
+				'capability'        => 'edit_theme_options',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Customize_Control(
+				$wp_customize,
+				'understrap_expert_length',
+				array(
+					'label'       => __( 'Länge Auzugstext Beitrag', 'understrap' ),
+					'description' => __( 'Anzahl der Wörter die bei einer Beitrag als Auzug angezeigt werden .', 'understrap' ),
+					'section'     => 'undertrap_news_home',
+					'type'        => 'number',
+					'priority'    => 20,
+					'input_attrs' => array(
+						'min' => 1,
+						'max' => 100,
+						'step' => 1,
+					  ),
+				)
+			)
+		);
+
+
+		// News Startseite Ende
+		////////////////////////////
+
 
 		////////////////////////////
 		// jumbotron settings

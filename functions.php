@@ -53,3 +53,13 @@ function register_footer_menus() {
 	 );
    }
    add_action( 'init', 'register_footer_menus' );
+
+
+function undertrap_excerpt_length($length){
+	$EXCERPT_LENGTH = intval(get_theme_mod('understrap_expert_length'));
+	if(  1 != is_int($EXCERPT_LENGTH) || ($EXCERPT_LENGTH <0)) {
+		$EXCERPT_LENGTH =20;
+	}
+	return $EXCERPT_LENGTH; 
+}
+ add_filter('excerpt_length', 'undertrap_excerpt_length');
