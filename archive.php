@@ -50,7 +50,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 							* If you want to override this in a child theme, then include a file
 							* called content-___.php (where ___ is the Post Format name) and that will be used instead.
 							*/
-							get_template_part( 'loop-templates/content', get_post_format(),array('col_size' => 4) );
+							get_template_part( 'loop-templates/content', get_post_format(),array('col_size' => 3) );
 						}
 					} else {
 						get_template_part( 'loop-templates/content', 'none' );
