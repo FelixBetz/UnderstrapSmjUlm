@@ -15,10 +15,10 @@ defined( 'ABSPATH' ) || exit;
 	}
 ?>
 
-<article class="col-lg-<?php echo $col_size ?>" <?php post_class(); ?> id="post-<?php the_ID(); ?>">
+<article class="mb-3 col-lg-<?php echo $col_size ?>" <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 
 
-	<div class="card rounded">
+	<div class="card rounded h-100 ">
 		<a class="img-card" href= "<?php echo esc_url( get_permalink() ) ; ?>">
 			<?php echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
 		</a>
@@ -33,13 +33,13 @@ defined( 'ABSPATH' ) || exit;
 
 			<!-- meta start -->
 			<?php if ( 'post' === get_post_type() ) : ?>
-				<div class="d-flex justify-content-between align-items-center">
+				<div class="d-flex justify-content-between align-items-center fw-bold">
 					<?php understrap_posted_on(); ?> 
 					<?php 
 						$categories = get_the_category();
 						if ( ! empty( $categories ) ) {
 							foreach($categories as $category) { 
-								echo '<a href='. get_category_link( $category->term_id)  .' class="ml-1 mr-1 pt-0 pb-0 btn btn-secondary btn-sm" role="button" aria-pressed="true">'. $category->name . '</a>'; 
+								echo '<a href='. get_category_link( $category->term_id)  .' class="ml-1 mr-1 pt-0 pb-0 btn btn-secondary btn-sm fw-bold" role="button" aria-pressed="true">'. $category->name . '</a>'; 
 							}
 						}
 
@@ -49,12 +49,12 @@ defined( 'ABSPATH' ) || exit;
 			<!-- .meta end-->
 
 			<!-- content start-->
-			<p class="">
+	
 				<?php
 					the_excerpt();
-					understrap_link_pages();
+					//understrap_link_pages();
 				?>
-			</p>
+		
 			<!-- content end-->
 		</div>
 	</div>
