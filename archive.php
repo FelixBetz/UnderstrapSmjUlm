@@ -62,8 +62,9 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 			<?php
 			// Display the pagination component.
+			echo '<div class="mt-3">';
 			understrap_pagination();
-
+			echo "</div>";
 			// Do the right sidebar check and close div#primary.
 			//todoFB get_template_part( 'global-templates/right-sidebar-check' );
 			?>
