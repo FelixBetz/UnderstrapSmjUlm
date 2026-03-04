@@ -36,4 +36,5 @@ async function copyDir( src, dest ) {
 	}
 }
 
-copyDir( './', `./dist/${ pkg.name }-${ pkg.version }` );
+//FB: copyDir( './', `./dist/${ pkg.name }-${ pkg.version }` );
+copyDir( './', `./dist/${ pkg.name }` );
