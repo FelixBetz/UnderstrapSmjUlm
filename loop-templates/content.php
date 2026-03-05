@@ -23,6 +23,24 @@ defined( 'ABSPATH' ) || exit;
 			<?php echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
 		</a>
 		<div class="card-content">
+
+			<!-- meta start -->
+			 <!--
+			<?php if ( 'post' === get_post_type() ) : ?>
+				<div class="d-flex justify-content-start fw-bold gap-1 flex-wrap">
+					<?php 
+						$categories = get_the_category();
+						if ( ! empty( $categories ) ) {
+							foreach($categories as $category) { 
+								echo '<a href='. get_category_link( $category->term_id)  .' class="ml-1 mr-1 pt-0 pb-0 btn btn-secondary btn-sm fw-bold" role="button" aria-pressed="true">'. $category->name . '</a>'; 
+							}
+						}
+					?>
+				</div>
+			<?php endif; ?>
+			-->
+			<!-- .meta end-->
+
 			<!-- card-title start -->
 			<h4 class="card-title">
 				<a href= "<?php echo esc_url( get_permalink() ) ; ?>">
@@ -31,22 +49,16 @@ defined( 'ABSPATH' ) || exit;
 			</h4>
 			<!-- card-title end -->
 
-			<!-- meta start -->
-			<?php if ( 'post' === get_post_type() ) : ?>
-				<div class="d-flex justify-content-between align-items-center fw-bold">
-					<?php understrap_posted_on(); ?> 
-					<?php 
-						$categories = get_the_category();
-						if ( ! empty( $categories ) ) {
-							foreach($categories as $category) { 
-								echo '<a href='. get_category_link( $category->term_id)  .' class="ml-1 mr-1 pt-0 pb-0 btn btn-secondary btn-sm fw-bold" role="button" aria-pressed="true">'. $category->name . '</a>'; 
-							}
-						}
 
-					?>
-				</div>
-			<?php endif; ?>
-			<!-- .meta end-->
+
+
+
+			<!-- posted on  -->
+			<div class="d-flex justify-content-between align-items-center fw-bold">
+					<?php understrap_posted_on(); ?> 
+			</div>
+
+
 
 			<!-- content start-->
 	
