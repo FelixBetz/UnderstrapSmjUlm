@@ -139,7 +139,7 @@ if ( ! class_exists( 'Understrap_WP_Bootstrap_Navwalker' ) ) {
 			if ( isset( $args->has_children ) && $args->has_children ) {
 				$classes[] = 'dropdown';
 			}
-			if ( in_array( 'current-menu-item', $classes, true ) || in_array( 'current-menu-parent', $classes, true ) ) {
+			if ( in_array( 'current-menu-item', $classes, true ) || in_array( 'current-menu-parent', $classes, true ) || in_array( 'current-menu-ancestor', $classes, true ) ) {
 				$classes[] = 'active';
 			}
 
@@ -190,7 +190,7 @@ if ( ! class_exists( 'Understrap_WP_Bootstrap_Navwalker' ) ) {
 
 			// If item has_children add atts to <a>.
 			if ( isset( $args->has_children ) && $args->has_children && 0 === $depth && 1 !== $args->depth ) {
-				$atts['href']           = '#';
+				$atts['href']           = ! empty( $item->url ) ? $item->url : '#';
 				$atts['data-toggle']    = 'dropdown';
 				$atts['data-bs-toggle'] = 'dropdown';
 				$atts['aria-haspopup']  = 'true';
@@ -205,6 +205,11 @@ if ( ! class_exists( 'Understrap_WP_Bootstrap_Navwalker' ) ) {
 				} else {
 					$atts['class'] = 'nav-link';
 				}
+			}
+
+			// Add active class to link if current item, parent, or ancestor
+			if ( in_array( 'current-menu-item', $classes, true ) || in_array( 'current-menu-parent', $classes, true ) || in_array( 'current-menu-ancestor', $classes, true ) ) {
+				$atts['class'] .= ' active';
 			}
 
 			$atts['aria-current'] = $item->current ? 'page' : '';
@@ -561,6 +566,86 @@ if ( ! class_exists( 'Understrap_WP_Bootstrap_Navwalker' ) ) {
 				$output .= '</div>';
 			}
 			return $output;
+		}
+
+		/**
+		 * Generate breadcrumb trail data by iteratively traversing menu hierarchy
+		 * 
+		 * @param array $menu_items Array of menu items
+		 * @param int $object_id The object_id (post ID) to search for
+		 * @return array Array of breadcrumb items with title, url, and id
+		 */
+		public static function get_breadcrumbs() {
+			if ( is_home() || is_front_page() ) {
+				return array();
+			}
+
+			global $post;
+			$object_id = $post->ID;
+			$locations = get_nav_menu_locations();
+			$menu_id = $locations['primary']; // Adjust 'primary' to your menu location
+			$menu_items = wp_get_nav_menu_items( $menu_id );
+
+			//find ID by object_id
+			$search_id = 0;
+			foreach ( $menu_items as $item ) {
+				if( $item->object_id == $object_id ) {
+					$search_id = $item->ID;
+					break;
+				}
+			}
+					
+					
+			$acc =array(); 
+			$is_found = true;
+			// Iteratively search for item and all parents
+			while ( $search_id != 0 && $is_found) {
+				$is_found = false;
+				foreach ( $menu_items as $item ) {
+					if ( $item->ID == $search_id ) {
+						// Add current item to accumulator (numeric array push)
+						$acc[] = array(         
+
+							'title' => $item->title,
+							'url'   => $item->url,
+							'id'    => $item->ID
+						);
+						$search_id = $item->menu_item_parent;
+						$is_found = true;
+						break; // Break inner loop to restart search with new search_id
+					}
+				}
+			}
+
+			//add root element home
+			$acc[] = array( 
+						'title' => __( 'Startseite', 'understrap' ),
+						'url'   => home_url( '/' ),
+						'id'    => 0
+					);
+			$acc =array_reverse( $acc );
+
+			//only display on level deeper than 2 (home > page)
+			if( count( $acc ) >2 ) {
+				// Output breadcrumb trail with container
+				$container = get_theme_mod( 'understrap_container_type' );
+				echo '<div class="' . esc_attr( $container ) . '">';
+				echo '<nav aria-label="breadcrumb" class="text-end py-0">';
+				echo '<ol class="breadcrumb justify-content-end mb-0">';
+				$last_index = count( $acc ) - 1;
+				foreach ( $acc as $index => $crumb ) {
+					if ( $index === $last_index ) {
+						// Last item: active, no link
+						echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html( $crumb['title'] ) . '</li>';
+					} else {
+						// Other items: with link
+						echo '<li class="breadcrumb-item"><a href="' . esc_url( $crumb['url'] ) . '" class="text-secondary">' . esc_html( $crumb['title'] ) . '</a></li>';
+					}
+				}
+				echo '</ol>';
+				echo '</nav>';
+				echo '</div>';
+			}
 		}
 	}
 }

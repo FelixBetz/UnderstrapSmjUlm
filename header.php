@@ -39,3 +39,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 		<?php get_template_part( 'global-templates/navbar', $navbar_type . '-' . $bootstrap_version ); ?>
 
 	</header><!-- #wrapper-navbar -->
+
+	<!-- ******************* The End of the Navbar Area ******************* -->
+	 
+	<?php Understrap_WP_Bootstrap_Navwalker::get_breadcrumbs(); ?>
