@@ -1,6 +1,10 @@
 const { promises: fs } = require( 'fs' );
 const path = require( 'path' );
+const { execFile } = require( 'child_process' );
+const { promisify } = require( 'util' );
 const pkg = require( '../../package.json' );
+
+const execFileAsync = promisify( execFile );
 
 async function copyDir( src, dest ) {
 	await fs.mkdir( dest, { recursive: true } );
@@ -21,6 +25,8 @@ async function copyDir( src, dest ) {
 		'phpmd.xml',
 		'phpstan-baseline.neon',
 		'phpstan.neon.dist',
+		'README.md',
+		'copy.bat',
 	];
 
 	for ( const entry of entries ) {
@@ -36,5 +42,43 @@ async function copyDir( src, dest ) {
 	}
 }
 
-//FB: copyDir( './', `./dist/${ pkg.name }-${ pkg.version }` );
-copyDir( './', `./dist/${ pkg.name }` );
+async function buildDist() {
+	const destination = `./dist/${ pkg.name }`;
+	const zipPath = `./dist/${ pkg.name }.zip`;
+	const distRoot = path.resolve( './dist' );
+	const zipPathAbsolute = path.resolve( zipPath );
+
+	await fs.rm( destination, { recursive: true, force: true } );
+	await fs.rm( zipPath, { force: true } );
+	await fs.mkdir( destination, { recursive: true } );
+	await copyDir( './', destination );
+
+	try {
+		await execFileAsync( 'tar', [
+			'-a',
+			'-c',
+			'-f',
+			zipPathAbsolute,
+			'-C',
+			distRoot,
+			pkg.name,
+		] );
+	} catch ( error ) {
+		if ( process.platform !== 'win32' ) {
+			throw error;
+		}
+
+		const sourcePath = path.resolve( destination );
+
+		await execFileAsync( 'powershell', [
+			'-NoProfile',
+			'-Command',
+			`Compress-Archive -Path "${ sourcePath }" -DestinationPath "${ zipPathAbsolute }" -Force`,
+		] );
+	}
+}
+
+buildDist().catch( error => {
+	console.error( error );
+	process.exit( 1 );
+} );
