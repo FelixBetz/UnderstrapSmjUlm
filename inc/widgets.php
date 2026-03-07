@@ -14,8 +14,8 @@ if ( ! function_exists( 'understrap_add_widget_categories_class' ) ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array $cat_args An array of Categories widget drop-down arguments.
-	 * @return array The filtered array of Categories widget drop-down arguments.
+	 * @param array<string, mixed> $cat_args An array of Categories widget drop-down arguments.
+	 * @return array<string, mixed> The filtered array of Categories widget drop-down arguments.
 	 */
 	function understrap_add_widget_categories_class( $cat_args ) {
 
@@ -37,20 +37,21 @@ if ( ! function_exists( 'understrap_add_block_widget_categories_class' ) ) {
 	 * @since 1.2.0
 	 *
 	 * @param string $output      The taxonomy drop-down HTML output.
-	 * @param array  $parsed_args Arguments used to build the drop-down.
+	 * @param array<string, mixed> $parsed_args Arguments used to build the drop-down.
 	 * @return string The filtered taxonomy drop-down HTML output.
 	 */
 	function understrap_add_block_widget_categories_class( $output, $parsed_args ) {
 		$class = understrap_get_select_control_class();
+		$parsed_class = isset( $parsed_args['class'] ) && is_string( $parsed_args['class'] ) ? $parsed_args['class'] : '';
 
-		if ( isset( $parsed_args['class'] ) && ! empty( $parsed_args['class'] ) ) {
+		if ( '' !== $parsed_class ) {
 			$search  = array(
-				"class=\"{$parsed_args['class']}\"",
-				"class='{$parsed_args['class']}'",
+				"class=\"{$parsed_class}\"",
+				"class='{$parsed_class}'",
 			);
 			$replace = array(
-				"class=\"{$parsed_args['class']} {$class}\"",
-				"class=\"{$parsed_args['class']} {$class}\"",
+				"class=\"{$parsed_class} {$class}\"",
+				"class=\"{$parsed_class} {$class}\"",
 			);
 		} else {
 			$search  = '<select';
@@ -69,12 +70,13 @@ if ( ! function_exists( 'understrap_add_block_widget_archives_classes' ) ) {
 	 * @since 1.2.0
 	 *
 	 * @param string $block_content The block content.
-	 * @param array  $block         The full block, including name and attributes.
+	 * @param array<string, mixed> $block The full block, including name and attributes.
 	 * @return string The filtered block content.
 	 */
 	function understrap_add_block_widget_archives_classes( $block_content, $block ) {
+		$attrs = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
 
-		if ( isset( $block['attrs']['displayAsDropdown'] ) && true === $block['attrs']['displayAsDropdown'] ) {
+		if ( isset( $attrs['displayAsDropdown'] ) && true === $attrs['displayAsDropdown'] ) {
 			return str_replace(
 				'<select',
 				'<select class="' . understrap_get_select_control_class() . '"',
@@ -93,10 +95,11 @@ if ( ! function_exists( 'understrap_add_block_widget_search_classes' ) ) {
 	 * @since 1.2.0
 	 *
 	 * @param string $block_content The block content.
-	 * @param array  $block         The full block, including name and attributes.
+	 * @param array<string, mixed> $block The full block, including name and attributes.
 	 * @return string The filtered block content.
 	 */
 	function understrap_add_block_widget_search_classes( $block_content, $block ) {
+		$attrs = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
 
 		$search  = array(
 			'wp-block-search__input ',
@@ -109,7 +112,7 @@ if ( ! function_exists( 'understrap_add_block_widget_search_classes' ) ) {
 			'wp-block-search__button btn btn-secondary ',
 		);
 
-		if ( isset( $block['attrs']['buttonPosition'] ) && 'button-inside' === $block['attrs']['buttonPosition'] ) {
+		if ( isset( $attrs['buttonPosition'] ) && 'button-inside' === $attrs['buttonPosition'] ) {
 			$search[]  = 'wp-block-search__inside-wrapper';
 			$replace[] = 'wp-block-search__inside-wrapper input-group';
 		}
@@ -124,7 +127,7 @@ add_filter( 'render_block_core/search', 'understrap_add_block_widget_search_clas
  *
  * @since 1.2.0
  *
- * @param array $params {
+ * @param array<int, array<string, mixed>> $params {
  *     Parameters passed to a widget’s display callback.
  *
  *     @type array $args  {
@@ -147,7 +150,7 @@ add_filter( 'render_block_core/search', 'understrap_add_block_widget_search_clas
  *         @type int $number Number increment used for multiples of the same widget.
  *     }
  * }
- * @return array Maybe filtered parameters.
+ * @return array<int, array<string, mixed>> Maybe filtered parameters.
  */
 function understrap_hero_active_carousel_item( $params ) {
 	if (
@@ -192,7 +195,7 @@ if ( ! function_exists( 'understrap_widget_classes' ) ) {
 	 *
 	 * @global array $sidebars_widgets
 	 *
-	 * @param array $params {
+	 * @param array<int, array<string, mixed>> $params {
 	 *     Parameters passed to a widget’s display callback.
 	 *
 	 *     @type array $args  {
@@ -215,7 +218,7 @@ if ( ! function_exists( 'understrap_widget_classes' ) ) {
 	 *         @type int $number Number increment used for multiples of the same widget.
 	 *     }
 	 * }
-	 * @return array Maybe filtered parameters.
+	 * @return array<int, array<string, mixed>> Maybe filtered parameters.
 	 */
 	function understrap_widget_classes( $params ) {
 
@@ -228,8 +231,11 @@ if ( ! function_exists( 'understrap_widget_classes' ) ) {
 		$sidebars_widgets_count = apply_filters( 'sidebars_widgets', $sidebars_widgets );
 
 		// Only apply changes if sidebar ID is set and the widget's classes depend on the number of widgets in the sidebar.
-		if ( isset( $params[0]['id'] ) && strpos( $params[0]['before_widget'], 'dynamic-classes' ) ) {
+		if ( isset( $params[0]['id'], $params[0]['before_widget'] ) && is_string( $params[0]['id'] ) && is_string( $params[0]['before_widget'] ) && false !== strpos( $params[0]['before_widget'], 'dynamic-classes' ) ) {
 			$sidebar_id   = $params[0]['id'];
+			if ( ! isset( $sidebars_widgets_count[ $sidebar_id ] ) || ! is_array( $sidebars_widgets_count[ $sidebar_id ] ) ) {
+				return $params;
+			}
 			$widget_count = count( $sidebars_widgets_count[ $sidebar_id ] );
 
 			$widget_classes = 'widget-count-' . $widget_count;

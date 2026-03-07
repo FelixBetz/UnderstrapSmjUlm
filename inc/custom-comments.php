@@ -15,7 +15,7 @@ if ( ! function_exists( 'understrap_bootstrap_comment_form_fields' ) ) {
 	/**
 	 * Add Bootstrap classes to WP's comment form default fields.
 	 *
-	 * @param array $fields {
+	 * @param array<string, string> $fields {
 	 *     Default comment fields.
 	 *
 	 *     @type string $author  Comment author field HTML.
@@ -24,7 +24,7 @@ if ( ! function_exists( 'understrap_bootstrap_comment_form_fields' ) ) {
 	 *     @type string $cookies Comment cookie opt-in field HTML.
 	 * }
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	function understrap_bootstrap_comment_form_fields( $fields ) {
 

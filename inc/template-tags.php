@@ -30,8 +30,6 @@ if ( ! function_exists( 'understrap_posted_on' ) ) {
 			$time_string,
 			esc_attr( get_the_date( 'c' ) ), // @phpstan-ignore-line -- post exists
 			esc_html( get_the_date() ), // @phpstan-ignore-line -- post exists
-			esc_attr( get_the_modified_date( 'c' ) ), // @phpstan-ignore-line -- post exists
-			esc_html( get_the_modified_date() ) // @phpstan-ignore-line -- post exists
 		);
 
 		$posted_on = apply_filters(

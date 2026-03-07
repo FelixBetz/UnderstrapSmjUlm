@@ -16,9 +16,9 @@ if ( ! function_exists( 'understrap_body_classes' ) ) {
 	/**
 	 * Adds custom classes to the array of body classes.
 	 *
-	 * @param array $classes Classes for the body element.
+	 * @param string[] $classes Classes for the body element.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	function understrap_body_classes( $classes ) {
 		// Adds a class of group-blog to blogs with more than 1 published author.
@@ -64,6 +64,7 @@ if ( function_exists( 'understrap_adjust_body_class' ) ) {
 	 * understrap_adjust_body_class() deprecated in v0.9.4. We keep adding the
 	 * filter for child themes which use their own understrap_adjust_body_class.
 	 */
+	// @phpstan-ignore-next-line Dynamic child-theme callback cannot be statically resolved.
 	add_filter( 'body_class', 'understrap_adjust_body_class' );
 }
 

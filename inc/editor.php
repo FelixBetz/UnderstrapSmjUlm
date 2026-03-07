@@ -25,8 +25,8 @@ if ( ! function_exists( 'understrap_tiny_mce_style_formats' ) ) {
 	/**
 	 * Reveals TinyMCE's hidden Style dropdown.
 	 *
-	 * @param array $buttons Array of Tiny MCE's button ids.
-	 * @return array
+	 * @param string[] $buttons Array of Tiny MCE's button ids.
+	 * @return string[]
 	 */
 	function understrap_tiny_mce_style_formats( $buttons ) {
 		array_unshift( $buttons, 'styleselect' );
@@ -40,8 +40,8 @@ if ( ! function_exists( 'understrap_tiny_mce_before_init' ) ) {
 	/**
 	 * Adds style options to TinyMCE's Style dropdown.
 	 *
-	 * @param array $settings TinyMCE settings array.
-	 * @return array
+	 * @param array<string, mixed> $settings TinyMCE settings array.
+	 * @return array<string, mixed>
 	 */
 	function understrap_tiny_mce_before_init( $settings ) {
 
@@ -74,7 +74,7 @@ if ( ! function_exists( 'understrap_tiny_mce_before_init' ) ) {
 			),
 		);
 
-		if ( isset( $settings['style_formats'] ) ) {
+		if ( isset( $settings['style_formats'] ) && is_string( $settings['style_formats'] ) ) {
 			$orig_style_formats = json_decode( $settings['style_formats'], true );
 			if ( is_array( $orig_style_formats ) ) {
 				$style_formats = array_merge( $orig_style_formats, $style_formats );
@@ -88,7 +88,7 @@ if ( ! function_exists( 'understrap_tiny_mce_before_init' ) ) {
 		 * _reboot.scss (v4 & v5). `margin: 9px 10px` is the value used by WP's
 		 * TinyMCE skin (/wp-includes/js/tinymce/skins/wordpress/wp-content.css).
 		 */
-		if ( isset( $settings['content_style'] ) ) {
+		if ( isset( $settings['content_style'] ) && is_string( $settings['content_style'] ) ) {
 			$settings['content_style'] .= ' body#tinymce { margin: 9px 10px; }';
 		} else {
 			$settings['content_style'] = 'body#tinymce { margin: 9px 10px; }';
@@ -111,8 +111,8 @@ if ( ! function_exists( 'understrap_tiny_mce_blockquote_button' ) ) {
 	 *
 	 * @see understrap_tiny_mce_before_init()
 	 *
-	 * @param array $buttons TinyMCE buttons array.
-	 * @return array TinyMCE buttons array without the blockquote button.
+	 * @param string[] $buttons TinyMCE buttons array.
+	 * @return string[] TinyMCE buttons array without the blockquote button.
 	 */
 	function understrap_tiny_mce_blockquote_button( $buttons ) {
 		foreach ( $buttons as $key => $button ) {

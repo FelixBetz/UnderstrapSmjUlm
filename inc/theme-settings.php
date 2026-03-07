@@ -28,7 +28,7 @@ if ( ! function_exists( 'understrap_get_theme_default_settings' ) ) {
 	/**
 	 * Retrieve default theme settings.
 	 *
-	 * @return array
+	 * @return array<string, int|string>
 	 */
 	function understrap_get_theme_default_settings() {
 		$defaults = array(
@@ -42,7 +42,7 @@ if ( ! function_exists( 'understrap_get_theme_default_settings' ) ) {
 		/**
 		 * Filters the default theme settings.
 		 *
-		 * @param array $defaults Array of default theme settings.
+		 * @param array<string, int|string> $defaults Array of default theme settings.
 		 */
 		return apply_filters( 'understrap_theme_default_settings', $defaults );
 	}

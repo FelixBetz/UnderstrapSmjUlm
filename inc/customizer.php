@@ -210,7 +210,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 		$wp_customize->add_setting(
 			'understrap_countdown',
 			array(
-				'default'           => 6,
+				'default'           => '6',
 				'type'              => 'theme_mod',
 				'sanitize_callback' => 'wp_kses_post',
 				'capability'        => 'edit_theme_options',
@@ -306,7 +306,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 		$wp_customize->add_setting(
 			'understrap_blog_category',
 			array(
-				'default'           => 0,
+				'default'           => '0',
 				'type'              => 'theme_mod',
 				'sanitize_callback' => 'wp_kses_post',
 				'capability'        => 'edit_theme_options',
@@ -341,7 +341,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 		$wp_customize->add_setting(
 			'understrap_num_blog_posts',
 			array(
-				'default'           => 6,
+				'default'           => '6',
 				'type'              => 'theme_mod',
 				'sanitize_callback' => 'wp_kses_post',
 				'capability'        => 'edit_theme_options',
@@ -371,7 +371,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 		$wp_customize->add_setting(
 			'understrap_expert_length',
 			array(
-				'default'           => 20,
+				'default'           => '20',
 				'type'              => 'theme_mod',
 				'sanitize_callback' => 'wp_kses_post',
 				'capability'        => 'edit_theme_options',
@@ -527,7 +527,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 		$wp_customize->add_setting(
 			'understrap_jumbotron_isActive',
 			array(
-				'default'           => True,
+				'default'           => '1',
 				'type'              => 'theme_mod',
 				'sanitize_callback' => 'wp_kses_post',
 				'capability'        => 'edit_theme_options',
@@ -554,7 +554,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 		$wp_customize->add_setting(
 			'understrap_jumbotron_image_x_offset',
 			array(
-				'default'           => 50,
+				'default'           => '50',
 				'type'              => 'theme_mod',
 				'sanitize_callback' => 'wp_kses_post',
 				'capability'        => 'edit_theme_options',
@@ -584,7 +584,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 			$wp_customize->add_setting(
 				'understrap_jumbotron_image_y_offset',
 				array(
-					'default'           => 50,
+					'default'           => '50',
 					'type'              => 'theme_mod',
 					'sanitize_callback' => 'wp_kses_post',
 					'capability'        => 'edit_theme_options',

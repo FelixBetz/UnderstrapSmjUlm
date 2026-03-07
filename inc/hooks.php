@@ -24,6 +24,10 @@ if ( ! function_exists( 'understrap_add_site_info' ) ) {
 	 */
 	function understrap_add_site_info() {
 		$the_theme = wp_get_theme();
+		$theme_name_raw    = $the_theme->get( 'Name' );
+		$theme_version_raw = $the_theme->get( 'Version' );
+		$theme_name        = is_string( $theme_name_raw ) ? $theme_name_raw : '';
+		$theme_version     = is_string( $theme_version_raw ) ? $theme_version_raw : 'X.X.X';
 
 		$site_info = sprintf(
 			'<a href="%1$s">%2$s</a><span class="sep"> | </span>%3$s(%4$s)',
@@ -36,13 +40,13 @@ if ( ! function_exists( 'understrap_add_site_info' ) ) {
 			sprintf(
 				/* translators: 1: Theme name, 2: Theme author */
 				esc_html__( 'Theme: %1$s by %2$s.', 'understrap' ),
-				$the_theme->get( 'Name' ),
+				$theme_name,
 				'<a href="' . esc_url( __( 'https://understrap.com', 'understrap' ) ) . '">understrap.com</a>'
 			),
 			sprintf(
 				/* translators: Theme version */
 				esc_html__( 'Version: %s', 'understrap' ),
-				$the_theme->get( 'Version' )
+				$theme_version
 			)
 		);
 

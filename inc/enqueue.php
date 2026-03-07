@@ -15,7 +15,8 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 	function understrap_scripts() {
 		// Get the theme data.
 		$the_theme         = wp_get_theme();
-		$theme_version     = $the_theme->get( 'Version' );
+		$theme_version_raw = $the_theme->get( 'Version' );
+		$theme_version     = is_string( $theme_version_raw ) ? $theme_version_raw : '1.0.0';
 		$suffix            = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// Grab asset urls.
@@ -48,7 +49,7 @@ if ( ! function_exists( 'understrap_nav_hover_inline_styles' ) ) {
 	/**
 	 * Open navbar dropdown menus on hover for desktop devices.
 	 */
-	function understrap_nav_hover_inline_styles() {
+	function understrap_nav_hover_inline_styles(): void {
 		$css = '
 		.navbar .navbar-nav .dropdown-menu {
 			border: 0;
@@ -70,7 +71,7 @@ if ( ! function_exists( 'understrap_nav_hover_clickable_parents_inline_script' )
 	/**
 	 * Keep top-level dropdown parent links clickable on desktop.
 	 */
-	function understrap_nav_hover_clickable_parents_inline_script() {
+	function understrap_nav_hover_clickable_parents_inline_script(): void {
 		$script = '
 		(function () {
 			const mediaQuery = window.matchMedia("(min-width: 992px) and (hover: hover)");

@@ -37,7 +37,7 @@ if ( ! function_exists( 'understrap_generate_color_palette' ) ) {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return array
+	 * @return array<int, array{name: string, slug: string, color: string}>
 	 */
 	function understrap_generate_color_palette() {
 		$color_palette = array();
@@ -50,7 +50,7 @@ if ( ! function_exists( 'understrap_generate_color_palette' ) ) {
 			$color_palette_json = json_decode( $color_palette_json, true );
 			if ( is_array( $color_palette_json ) ) {
 				foreach ( $color_palette_json as $key => $value ) {
-					if ( ! is_string( $key ) ) {
+					if ( ! is_string( $key ) || ! is_string( $value ) ) {
 						continue;
 					}
 					$key             = str_replace( array( '--bs-', '--' ), '', $key );
@@ -68,7 +68,7 @@ if ( ! function_exists( 'understrap_generate_color_palette' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param array $color_palette An array of color options for the editor-color-palette setting.
+		 * @param array<int, array{name: string, slug: string, color: string}> $color_palette An array of color options for the editor-color-palette setting.
 		 */
 		return apply_filters( 'understrap_theme_editor_color_palette', $color_palette );
 	}
