@@ -88,16 +88,6 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			$this->version     = is_string( $theme_version ) ? $theme_version : '0.0.0';
 			$this->access_token = ''; // Optional: GitHub Personal Access Token hier eintragen
 
-			$this->log_debug(
-				sprintf(
-					'Updater initialisiert. Repo=%s/%s, Theme-Slug=%s, Version=%s',
-					$this->username,
-					$this->repository,
-					$this->theme_slug,
-					$this->version
-				)
-			);
-
 			// WordPress Hooks registrieren
 			add_filter( 'pre_set_site_transient_update_themes', array( $this, 'check_for_update' ) );
 			add_filter( 'themes_api', array( $this, 'theme_api_call' ), 10, 3 );
@@ -113,6 +103,16 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			if ( ! isset( $transient->checked ) || ! is_array( $transient->checked ) ) {
 				return $transient;
 			}
+
+			$this->log_debug(
+				sprintf(
+					'Update-Check gestartet. Repo=%s/%s, Theme-Slug=%s, Version=%s',
+					$this->username,
+					$this->repository,
+					$this->theme_slug,
+					$this->version
+				)
+			);
 
 			// GitHub API Daten holen
 			$remote_version = $this->get_remote_version();
