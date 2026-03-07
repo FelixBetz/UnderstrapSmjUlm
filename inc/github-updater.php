@@ -60,6 +60,20 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 		private $access_token;
 
 		/**
+		 * Request-local cache marker for remote release data.
+		 *
+		 * @var bool
+		 */
+		private $remote_version_loaded = false;
+
+		/**
+		 * Request-local cache for remote release data.
+		 *
+		 * @var object|false
+		 */
+		private $remote_version_cache = false;
+
+		/**
 		 * Constructor
 		 */
 		public function __construct() {
@@ -145,6 +159,9 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 					'url'         => $this->get_release_url( $remote_version ),
 					'package'     => $this->get_download_url( $remote_version ),
 				);
+			} elseif ( isset( $transient->response ) && is_array( $transient->response ) && isset( $transient->response[ $this->theme_slug ] ) ) {
+				// Remove stale update notices if the local theme is already current.
+				unset( $transient->response[ $this->theme_slug ] );
 			}
 
 			return $transient;
@@ -156,6 +173,19 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 		 * @return object|false
 		 */
 		private function get_remote_version() {
+			if ( $this->remote_version_loaded ) {
+				return $this->remote_version_cache;
+			}
+
+			$cache_key = 'understrap_github_release_' . md5( $this->username . '/' . $this->repository );
+			$cached_release = get_site_transient( $cache_key );
+
+			if ( is_object( $cached_release ) && null !== $this->get_release_tag( $cached_release ) ) {
+				$this->remote_version_loaded = true;
+				$this->remote_version_cache = $cached_release;
+				return $this->remote_version_cache;
+			}
+
 			$api_url = sprintf(
 				'https://api.github.com/repos/%s/%s/releases/latest',
 				$this->username,
@@ -179,6 +209,8 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 
 			if ( is_wp_error( $response ) ) {
 				$this->log_debug( 'GitHub updater request failed: ' . $response->get_error_message() );
+				$this->remote_version_loaded = true;
+				$this->remote_version_cache = false;
 				return false;
 			}
 
@@ -186,6 +218,8 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 
 			if ( 200 !== $status_code ) {
 				$this->log_debug( 'GitHub updater HTTP status: ' . (string) $status_code );
+				$this->remote_version_loaded = true;
+				$this->remote_version_cache = false;
 				return false;
 			}
 
@@ -194,6 +228,8 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 
 			if ( ! is_object( $data ) ) {
 				$this->log_debug( 'GitHub updater returned invalid JSON response.' );
+				$this->remote_version_loaded = true;
+				$this->remote_version_cache = false;
 				return false;
 			}
 
@@ -202,9 +238,14 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			}
 
 			if ( null !== $this->get_release_tag( $data ) ) {
-				return $data;
+				set_site_transient( $cache_key, $data, 5 * MINUTE_IN_SECONDS );
+				$this->remote_version_loaded = true;
+				$this->remote_version_cache = $data;
+				return $this->remote_version_cache;
 			}
 
+			$this->remote_version_loaded = true;
+			$this->remote_version_cache = false;
 			return false;
 		}
 
