@@ -18,6 +18,13 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 	class Understrap_GitHub_Updater {
 
 		/**
+		 * Fallback package URL template.
+		 *
+		 * @var string
+		 */
+		private const FALLBACK_PACKAGE_URL = 'https://github.com/%s/%s/archive/refs/tags/%s.zip';
+
+		/**
 		 * GitHub Username
 		 *
 		 * @var string
@@ -60,11 +67,11 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			
 			// Theme Informationen aus style.css Header auslesen
 			$github_uri = $theme->get( 'GitHub Theme URI' );
-			
-			if ( empty( $github_uri ) ) {
+
+			if ( ! is_string( $github_uri ) || '' === $github_uri ) {
 				return;
 			}
-
+			
 			// Parse GitHub URI
 			preg_match( '/github\.com\/([^\/]+)\/([^\/]+)\/?/', $github_uri, $matches );
 			
@@ -75,7 +82,8 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			$this->username    = $matches[1];
 			$this->repository  = $matches[2];
 			$this->theme_slug  = get_template();
-			$this->version     = $theme->get( 'Version' );
+			$theme_version     = $theme->get( 'Version' );
+			$this->version     = is_string( $theme_version ) ? $theme_version : '0.0.0';
 			$this->access_token = ''; // Optional: GitHub Personal Access Token hier eintragen
 
 			// WordPress Hooks registrieren
@@ -86,22 +94,32 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 		/**
 		 * Check for Theme Updates
 		 *
-		 * @param object $transient Update transient.
-		 * @return object
+		 * @param stdClass $transient Update transient.
+		 * @return stdClass
 		 */
 		public function check_for_update( $transient ) {
-			if ( empty( $transient->checked ) ) {
+			if ( ! isset( $transient->checked ) || ! is_array( $transient->checked ) ) {
 				return $transient;
 			}
 
 			// GitHub API Daten holen
 			$remote_version = $this->get_remote_version();
 
-			if ( $remote_version && version_compare( $this->version, $remote_version->tag_name, '<' ) ) {
+			if ( false === $remote_version ) {
+				return $transient;
+			}
+
+			$remote_tag = $this->get_release_tag( $remote_version );
+
+			if ( null !== $remote_tag && version_compare( $this->version, $remote_tag, '<' ) ) {
+				if ( ! isset( $transient->response ) || ! is_array( $transient->response ) ) {
+					$transient->response = array();
+				}
+
 				$transient->response[ $this->theme_slug ] = array(
 					'theme'       => $this->theme_slug,
-					'new_version' => $remote_version->tag_name,
-					'url'         => $remote_version->html_url,
+					'new_version' => $remote_tag,
+					'url'         => $this->get_release_url( $remote_version ),
 					'package'     => $this->get_download_url( $remote_version ),
 				);
 			}
@@ -112,7 +130,7 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 		/**
 		 * Get Remote Version Info from GitHub
 		 *
-		 * @return object|bool
+		 * @return object|false
 		 */
 		private function get_remote_version() {
 			$api_url = sprintf(
@@ -141,7 +159,11 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			$body = wp_remote_retrieve_body( $response );
 			$data = json_decode( $body );
 
-			if ( ! empty( $data->tag_name ) ) {
+			if ( ! is_object( $data ) ) {
+				return false;
+			}
+
+			if ( null !== $this->get_release_tag( $data ) ) {
 				return $data;
 			}
 
@@ -155,10 +177,24 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 		 * @return string
 		 */
 		private function get_download_url( $release ) {
+			$tag = $this->get_release_tag( $release );
+
+			if ( null === $tag ) {
+				return '';
+			}
+
 			// Prüfe ob ein Release Asset (ZIP) vorhanden ist
-			if ( ! empty( $release->assets ) && is_array( $release->assets ) ) {
+			if ( isset( $release->assets ) && is_array( $release->assets ) ) {
 				foreach ( $release->assets as $asset ) {
-					if ( strpos( $asset->name, '.zip' ) !== false ) {
+					if ( ! is_object( $asset ) || ! isset( $asset->name, $asset->browser_download_url ) ) {
+						continue;
+					}
+
+					if ( ! is_string( $asset->name ) || ! is_string( $asset->browser_download_url ) ) {
+						continue;
+					}
+
+					if ( false !== strpos( $asset->name, '.zip' ) ) {
 						return $asset->browser_download_url;
 					}
 				}
@@ -166,27 +202,55 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 
 			// Fallback: Nutze den Source Code ZIP Download
 			return sprintf(
-				'https://github.com/%s/%s/archive/refs/tags/%s.zip',
+				self::FALLBACK_PACKAGE_URL,
 				$this->username,
 				$this->repository,
-				$release->tag_name
+				$tag
 			);
+		}
+
+		/**
+		 * Get release tag name from release object.
+		 *
+		 * @param object $release Release object from GitHub API.
+		 * @return string|null
+		 */
+		private function get_release_tag( $release ) {
+			if ( ! isset( $release->tag_name ) || ! is_string( $release->tag_name ) || '' === $release->tag_name ) {
+				return null;
+			}
+
+			return $release->tag_name;
+		}
+
+		/**
+		 * Get release page URL from release object.
+		 *
+		 * @param object $release Release object from GitHub API.
+		 * @return string
+		 */
+		private function get_release_url( $release ) {
+			if ( isset( $release->html_url ) && is_string( $release->html_url ) ) {
+				return $release->html_url;
+			}
+
+			return sprintf( 'https://github.com/%s/%s/releases', $this->username, $this->repository );
 		}
 
 		/**
 		 * Theme API Call Handler
 		 *
-		 * @param false|object|array $result Result.
+		 * @param array<string, mixed>|object|false $result Result.
 		 * @param string             $action Action.
 		 * @param object             $args   Arguments.
-		 * @return object
+		 * @return array<string, mixed>|object|false
 		 */
 		public function theme_api_call( $result, $action, $args ) {
 			if ( 'theme_information' !== $action ) {
 				return $result;
 			}
 
-			if ( $args->slug !== $this->theme_slug ) {
+			if ( ! isset( $args->slug ) || ! is_string( $args->slug ) || $args->slug !== $this->theme_slug ) {
 				return $result;
 			}
 
@@ -196,20 +260,30 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 				return $result;
 			}
 
+			$remote_tag = $this->get_release_tag( $remote_version );
+
+			if ( null === $remote_tag ) {
+				return $result;
+			}
+
 			$theme = wp_get_theme();
+			$theme_name = $theme->get( 'Name' );
+			$theme_author = $theme->get( 'Author' );
+			$theme_homepage = $theme->get( 'ThemeURI' );
+			$theme_description = $theme->get( 'Description' );
 
 			$result = new stdClass();
-			$result->name = $theme->get( 'Name' );
+			$result->name = is_string( $theme_name ) ? $theme_name : $this->theme_slug;
 			$result->slug = $this->theme_slug;
-			$result->version = $remote_version->tag_name;
-			$result->author = $theme->get( 'Author' );
-			$result->homepage = $theme->get( 'ThemeURI' );
+			$result->version = $remote_tag;
+			$result->author = is_string( $theme_author ) ? $theme_author : '';
+			$result->homepage = is_string( $theme_homepage ) ? $theme_homepage : '';
 			$result->download_link = $this->get_download_url( $remote_version );
 			$result->sections = array(
-				'description' => $theme->get( 'Description' ),
+				'description' => is_string( $theme_description ) ? $theme_description : '',
 			);
 
-			if ( ! empty( $remote_version->body ) ) {
+			if ( isset( $remote_version->body ) && is_string( $remote_version->body ) && '' !== $remote_version->body ) {
 				$result->sections['changelog'] = $this->parse_changelog( $remote_version->body );
 			}
 
