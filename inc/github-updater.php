@@ -66,9 +66,10 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			$theme = wp_get_theme();
 			
 			// Theme Informationen aus style.css Header auslesen
-			$github_uri = $theme->get( 'GitHub Theme URI' );
+			$github_uri = $this->get_theme_header_value( $theme, 'GitHub Theme URI' );
 
 			if ( ! is_string( $github_uri ) || '' === $github_uri ) {
+				$this->log_debug( 'GitHub Theme URI nicht gefunden. Updater wird nicht initialisiert.' );
 				return;
 			}
 			
@@ -76,6 +77,7 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			preg_match( '/github\.com\/([^\/]+)\/([^\/]+)\/?/', $github_uri, $matches );
 			
 			if ( count( $matches ) < 3 ) {
+				$this->log_debug( 'GitHub Theme URI konnte nicht geparst werden: ' . $github_uri );
 				return;
 			}
 
@@ -85,6 +87,16 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			$theme_version     = $theme->get( 'Version' );
 			$this->version     = is_string( $theme_version ) ? $theme_version : '0.0.0';
 			$this->access_token = ''; // Optional: GitHub Personal Access Token hier eintragen
+
+			$this->log_debug(
+				sprintf(
+					'Updater initialisiert. Repo=%s/%s, Theme-Slug=%s, Version=%s',
+					$this->username,
+					$this->repository,
+					$this->theme_slug,
+					$this->version
+				)
+			);
 
 			// WordPress Hooks registrieren
 			add_filter( 'pre_set_site_transient_update_themes', array( $this, 'check_for_update' ) );
@@ -110,15 +122,26 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			}
 
 			$remote_tag = $this->get_release_tag( $remote_version );
+			$current_version = $this->normalize_version( $this->version );
+			$remote_version_number = null !== $remote_tag ? $this->normalize_version( $remote_tag ) : null;
 
-			if ( null !== $remote_tag && version_compare( $this->version, $remote_tag, '<' ) ) {
+			$this->log_debug(
+				sprintf(
+					'Update-Check: lokal=%s, remote-tag=%s, remote-normalized=%s',
+					$current_version,
+					null !== $remote_tag ? $remote_tag : 'n/a',
+					null !== $remote_version_number ? $remote_version_number : 'n/a'
+				)
+			);
+
+			if ( null !== $remote_version_number && version_compare( $current_version, $remote_version_number, '<' ) ) {
 				if ( ! isset( $transient->response ) || ! is_array( $transient->response ) ) {
 					$transient->response = array();
 				}
 
 				$transient->response[ $this->theme_slug ] = array(
 					'theme'       => $this->theme_slug,
-					'new_version' => $remote_tag,
+					'new_version' => $remote_version_number,
 					'url'         => $this->get_release_url( $remote_version ),
 					'package'     => $this->get_download_url( $remote_version ),
 				);
@@ -140,8 +163,10 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			);
 
 			$args = array(
+				'timeout' => 15,
 				'headers' => array(
 					'Accept' => 'application/vnd.github.v3+json',
+					'User-Agent' => 'WordPress/' . get_bloginfo( 'version' ) . '; ' . home_url( '/' ),
 				),
 			);
 
@@ -153,6 +178,14 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			$response = wp_remote_get( $api_url, $args );
 
 			if ( is_wp_error( $response ) ) {
+				$this->log_debug( 'GitHub updater request failed: ' . $response->get_error_message() );
+				return false;
+			}
+
+			$status_code = wp_remote_retrieve_response_code( $response );
+
+			if ( 200 !== $status_code ) {
+				$this->log_debug( 'GitHub updater HTTP status: ' . (string) $status_code );
 				return false;
 			}
 
@@ -160,7 +193,12 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			$data = json_decode( $body );
 
 			if ( ! is_object( $data ) ) {
+				$this->log_debug( 'GitHub updater returned invalid JSON response.' );
 				return false;
+			}
+
+			if ( isset( $data->message ) && is_string( $data->message ) ) {
+				$this->log_debug( 'GitHub updater API message: ' . $data->message );
 			}
 
 			if ( null !== $this->get_release_tag( $data ) ) {
@@ -168,6 +206,40 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			}
 
 			return false;
+		}
+
+		/**
+		 * Get a theme header value with fallback to direct style.css parsing.
+		 *
+		 * @param WP_Theme $theme Theme object.
+		 * @param string   $header Header name.
+		 * @return string
+		 */
+		private function get_theme_header_value( $theme, $header ) {
+			$value = $theme->get( $header );
+
+			if ( is_string( $value ) && '' !== $value ) {
+				return $value;
+			}
+
+			$style_path = trailingslashit( get_template_directory() ) . 'style.css';
+
+			if ( ! file_exists( $style_path ) ) {
+				return '';
+			}
+
+			$headers = get_file_data(
+				$style_path,
+				array(
+					'custom' => $header,
+				)
+			);
+
+			if ( isset( $headers['custom'] ) && is_string( $headers['custom'] ) ) {
+				return trim( $headers['custom'] );
+			}
+
+			return '';
 		}
 
 		/**
@@ -221,6 +293,28 @@ if ( ! class_exists( 'Understrap_GitHub_Updater' ) ) {
 			}
 
 			return $release->tag_name;
+		}
+
+		/**
+		 * Normalize semantic version strings, e.g. v1.2.3 -> 1.2.3.
+		 *
+		 * @param string $version Raw version string.
+		 * @return string
+		 */
+		private function normalize_version( $version ) {
+			return ltrim( trim( $version ), "vV" );
+		}
+
+		/**
+		 * Write debug information when WP_DEBUG is enabled.
+		 *
+		 * @param string $message Debug message.
+		 * @return void
+		 */
+		private function log_debug( $message ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( '[Understrap GitHub Updater] ' . $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			}
 		}
 
 		/**
