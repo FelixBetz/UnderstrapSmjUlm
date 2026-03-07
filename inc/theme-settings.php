@@ -35,6 +35,8 @@ if ( ! function_exists( 'understrap_get_theme_default_settings' ) ) {
 			'understrap_posts_index_style' => 'default',   // Latest blog posts style.
 			'understrap_sidebar_position'  => 'right',     // Sidebar position.
 			'understrap_container_type'    => 'container', // Container width.
+			'understrap_blog_category'     => 0,           // Show all categories by default.
+			'understrap_num_blog_posts'    => 6,          // Default number of posts to display.
 		);
 
 		/**

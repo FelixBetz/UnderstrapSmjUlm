@@ -37,7 +37,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 			<main class="site-main" id="main">
 			<div class="row">
 				<?php
-				$CATEGORY_POSTS = intval(get_theme_mod('understrap_blog_category'));
+				$CATEGORY_POSTS = intval(get_theme_mod('understrap_blog_category', 0));
 
 				if(  1 != is_int($CATEGORY_POSTS) || ($CATEGORY_POSTS <0)) {
 					$CATEGORY_POSTS =0;
@@ -46,10 +46,10 @@ $container = get_theme_mod( 'understrap_container_type' );
 				if ( have_posts() ) {
 					// Start the Loop.
 					$cnt_posts =0;
-					$MAX_POSTS = intval(get_theme_mod('understrap_num_blog_posts'));
+					$MAX_POSTS = intval(get_theme_mod('understrap_num_blog_posts', 6));
 
-					if(  1 != is_int($MAX_POSTS) || ($MAX_POSTS <0)) {
-						$MAX_POSTS =0;
+					if(  1 != is_int($MAX_POSTS) || ($MAX_POSTS <=0)) {
+						$MAX_POSTS =6;
 					}
 					while(  ($cnt_posts < $MAX_POSTS) && have_posts() ) {
 						the_post();
