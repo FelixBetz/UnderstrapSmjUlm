@@ -1,6 +1,6 @@
 {
-  "name": "understrap",
-  "version": "1.2.2",
+  "name": "understrap_smj_ulm",
+  "version": "1.0.0",
   "description": "WordPress Theme framework",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/understrap/understrap.git"
+    "url": "https://github.com/FelixBetz/UnderstrapSmjUlm"
   },
   "keywords": [
     "wordpress",
@@ -45,13 +45,13 @@
     "bootstrap",
     "underscores"
   ],
-  "author": "The UnderStrap Authors (https://github.com/understrap/understrap/graphs/contributors)",
+  "author": "Felix Betz (https://github.com/FelixBetz)",
   "license": "GPL-3.0",
   "licenseUrl": "https://www.gnu.org/licenses/gpl-3.0.html",
   "bugs": {
-    "url": "https://github.com/understrap/understrap/issues"
+    "url": "https://github.com/FelixBetz/UnderstrapSmjUlm/issues"
   },
-  "homepage": "https://understrap.com",
+  "homepage": "https://github.com/FelixBetz/UnderstrapSmjUlm",
   "devDependencies": {
     "@babel/core": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
