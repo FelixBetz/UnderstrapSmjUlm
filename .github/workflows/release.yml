@@ -36,9 +36,6 @@ jobs:
       - name: Run PHPStan
         run: composer run phpstan
 
-      - name: Install Composer dependencies (production only)
-        run: composer install --no-dev --no-progress --no-interaction --prefer-dist --optimize-autoloader
-
       - name: Build assets
         run: |
           npm run js
@@ -48,6 +45,15 @@ jobs:
       - name: Get version from tag
         id: version
         run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Remove vendor directory from dist
+        run: |
+          if [ -d "dist/understrap_smj_ulm/vendor" ]; then
+            rm -rf dist/understrap_smj_ulm/vendor
+          fi
+          if [ -f "dist/understrap_smj_ulm/composer.phar" ]; then
+            rm -f dist/understrap_smj_ulm/composer.phar
+          fi
 
       - name: Create release archive
         run: |
