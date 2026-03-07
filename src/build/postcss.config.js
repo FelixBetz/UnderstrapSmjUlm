@@ -1,7 +1,5 @@
 'use strict';
 
-const process = require( 'process' );
-
 const colors = [
 	'blue',
 	'indigo',
@@ -17,9 +15,7 @@ const colors = [
 	'gray',
 	'gray-dark',
 ];
-
-const BS4 = process.argv[ process.argv.length - 1 ] === 'BS4';
-const colorInfix = BS4 ? '' : 'bs-';
+const colorInfix = 'bs-';
 
 module.exports = ( ctx ) => {
 	return {
@@ -31,7 +27,7 @@ module.exports = ( ctx ) => {
 		plugins: {
 			autoprefixer: {
 				cascade: false,
-				env: BS4 ? 'bs4' : 'bs5',
+				env: 'bs5',
 			},
 			'postcss-understrap-palette-generator': {
 				colors: colors.map( ( x ) => `--${ colorInfix }${ x }` ),

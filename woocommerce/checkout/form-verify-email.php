@@ -20,9 +20,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$label_class = get_theme_mod( 'understrap_bootstrap_version', 'bootstrap4' )
-	? ''
-	: ' class="form-label"';
+$label_class = ' class="form-label"';
 ?>
 <form name="checkout" method="post" class="woocommerce-form woocommerce-verify-email" action="<?php echo esc_url( $verify_url ); ?>" enctype="multipart/form-data">
 
