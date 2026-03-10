@@ -444,33 +444,6 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 			)
 		);
 
-		//Paragraph
-		$wp_customize->add_setting(
-			'understrap_jumbotron_paragrahp',
-			array(
-				'default'           => '',
-				'type'              => 'theme_mod',
-				'sanitize_callback' => 'wp_kses_post',
-				'capability'        => 'edit_theme_options',
-			)
-		);
-
-		$wp_customize->add_control(
-			new WP_Customize_Control(
-				$wp_customize,
-				'understrap_jumbotron_paragrahp',
-				array(
-					'label'       => __( 'Paragraph', 'understrap' ),
-					'description' => __( 'Text des Paragraphs', 'understrap' ),
-					'section'     => 'jumbotron_section',
-					'type'        => 'textarea',
-					'priority'    => 20,
-				
-					
-				)
-			)
-		);
-
 		//Button Text
 		$wp_customize->add_setting(
 			'understrap_jumbotron_button_text',

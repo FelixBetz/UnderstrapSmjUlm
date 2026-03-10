@@ -24,7 +24,6 @@ defined( 'ABSPATH' ) || exit;
 
     //Text Settings
     $jumptronHeadline = get_theme_mod('understrap_jumbotron_headline');
-    $jumptronParagraph = get_theme_mod('understrap_jumbotron_paragrahp');
 
     //Button Settings
     $jumptronButtonText = get_theme_mod('understrap_jumbotron_button_text');
