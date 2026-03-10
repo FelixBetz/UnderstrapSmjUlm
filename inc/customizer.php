@@ -60,18 +60,6 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 	 */
 	function understrap_theme_customize_register( $wp_customize ) {
 
-		// Theme layout settings.
-		$wp_customize->add_section(
-			'understrap_theme_layout_options',
-			array(
-				'title'       => __( 'Theme Layout Settings', 'understrap' ),
-				'capability'  => 'edit_theme_options',
-				'description' => __( 'Container width and sidebar defaults', 'understrap' ),
-				'priority'    => apply_filters( 'understrap_theme_layout_options_priority', 160 ),
-			)
-		);
-
-
 		$wp_customize->add_setting(
 			'understrap_container_type',
 			array(
@@ -89,7 +77,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				array(
 					'label'       => __( 'Container Width', 'understrap' ),
 					'description' => __( 'Choose between Bootstrap\'s container and container-fluid', 'understrap' ),
-					'section'     => 'understrap_theme_layout_options',
+					'section'     => 'static_front_page',
 					'type'        => 'select',
 					'choices'     => array(
 						'container'       => __( 'Fixed width container', 'understrap' ),
@@ -120,7 +108,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 						'Choose between an expanding and collapsing navbar or an offcanvas drawer.',
 						'understrap'
 					),
-					'section'     => 'understrap_theme_layout_options',
+					'section'     => 'static_front_page',
 					'type'        => 'select',
 					'choices'     => array(
 						'collapse'  => __( 'Collapse', 'understrap' ),
@@ -151,7 +139,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 						'Set sidebar\'s default position. Can either be: right, left, both or none. Note: this can be overridden on individual pages.',
 						'understrap'
 					),
-					'section'     => 'understrap_theme_layout_options',
+					'section'     => 'static_front_page',
 					'type'        => 'select',
 					'choices'     => array(
 						'right' => __( 'Right sidebar', 'understrap' ),
@@ -173,22 +161,20 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				'capability'        => 'edit_theme_options',
 			)
 		);
-		/* todoFB
+
+		// Background Color in Theme Layout Settings
 		$wp_customize->add_control(
-			new WP_Customize_Control(
+			new WP_Customize_Color_Control(
 				$wp_customize,
-				'understrap_site_info_override',
+				'background_color',
 				array(
-					'label'       => __( 'Footer Site Info', 'understrap' ),
-					'description' => __( 'Override Understrap\'s site info located at the footer of the page.', 'understrap' ),
-					'section'     => 'understrap_theme_layout_options',
-					'type'        => 'textarea',
-					'priority'    => 20,
+					'label'       => __( 'Hintergrundfarbe', 'understrap' ),
+					'description' => __( 'Hintergrundfarbe der Website', 'understrap' ),
+					'section'     => 'static_front_page',
+					'priority'    => apply_filters( 'understrap_background_color_priority', 30 ),
 				)
 			)
-		);*/
-
-	
+		);
 
 		
 
@@ -201,7 +187,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				'title'       => __( 'Countdown', 'understrap' ),
 				'capability'  => 'edit_theme_options',
 				'description' => __( 'Einstellungen für den Countdown im Footer Bereich', 'understrap' ),
-				'priority'    => apply_filters( 'understrap_theme_layout_options_priority', 0 ),
+				'priority'    => apply_filters( 'understrap_countdown_section_priority', 50 ),
 			)
 		);
 
@@ -295,10 +281,10 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 		$wp_customize->add_section(
 			'undertrap_news_home',
 			array(
-				'title'       => __( 'Startseite News', 'understrap' ),
+				'title'       => __( 'Beiträge (Startseite)', 'understrap' ),
 				'capability'  => 'edit_theme_options',
-				'description' => __( 'Einstellungen für die News auf der Startseite', 'understrap' ),
-				'priority'    => apply_filters( 'understrap_theme_layout_options_priority', 0 ),
+				'description' => __( 'Einstellungen für die Beiträge auf der Startseite', 'understrap' ),
+				'priority'    => apply_filters( 'understrap_news_home_section_priority', 30 ),
 			)
 		);
 
@@ -409,8 +395,8 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 			array(
 				'title'       => __( 'Werbung (Startseite)', 'understrap' ),
 				'capability'  => 'edit_theme_options',
-				'description' => __( 'Einstellunge für den Werbe - Jumbotron auf der Startseite', 'understrap' ),
-				'priority'    => apply_filters( 'understrap_theme_layout_options_priority', 0 ),
+				'description' => __( 'Einstellunge für die Werbung auf der Startseite', 'understrap' ),
+				'priority'    => apply_filters( 'understrap_jumbotron_section_priority', 20 ),
 			)
 		);
 
@@ -512,8 +498,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				$wp_customize,
 				'understrap_jumbotron_isActive',
 				array(
-					'label'       => __( 'Aktiv', 'understrap' ),
-					'description' => __( 'Soll der Werbe - Jumbotron angezeigt werden?', 'understrap' ),
+					'label'       => __( 'Werbung aktiv', 'understrap' ),
 					'section'     => 'jumbotron_section',
 					'type'        => 'checkbox',
 					'priority'    => 20,
@@ -553,7 +538,7 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 				)
 			)
 		);
-			//background-image x-offset
+			//background-image y-offset
 			$wp_customize->add_setting(
 				'understrap_jumbotron_image_y_offset',
 				array(
@@ -569,8 +554,8 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 					$wp_customize,
 					'understrap_jumbotron_image_y_offset',
 					array(
-						'label'       => __( 'Y-Offset', 'understrap' ),
-						'description' => __( 'Hintergrund Bild x-Offset (0% bis 100%)', 'understrap' ),
+						'label'       => __( 'y-Offset', 'understrap' ),
+						'description' => __( 'Hintergrund Bild y-Offset (0% bis 100%)', 'understrap' ),
 						'section'     => 'jumbotron_section',
 						'type'        => 'number',
 						'priority'    => 20,
@@ -615,6 +600,31 @@ if ( ! function_exists( 'understrap_theme_customize_register' ) ) {
 		$understrap_site_info = $wp_customize->get_setting( 'understrap_site_info_override' );
 		if ( $understrap_site_info instanceof WP_Customize_Setting ) {
 			$understrap_site_info->transport = 'postMessage';
+		}
+
+		// Set order for WordPress core panels/sections in the customizer menu.
+		$core_panels = array(
+			'widgets'   => 40,
+			'nav_menus' => 60,
+		);
+		foreach ( $core_panels as $panel_id => $priority ) {
+			$panel = $wp_customize->get_panel( $panel_id );
+			if ( $panel instanceof WP_Customize_Panel ) {
+				$panel->priority = $priority;
+			}
+		}
+
+		$core_sections = array(
+			'static_front_page'=> 70,
+			'title_tagline'    => 80,
+			'background_image' => 90,
+			'custom_css'       => 100,
+		);
+		foreach ( $core_sections as $section_id => $priority ) {
+			$section = $wp_customize->get_section( $section_id );
+			if ( $section instanceof WP_Customize_Section ) {
+				$section->priority = $priority;
+			}
 		}
 	}
 } // End of if function_exists( 'understrap_theme_customize_register' ).
