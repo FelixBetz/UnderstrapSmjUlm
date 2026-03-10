@@ -20,7 +20,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 ?>
 
 <?php if ( is_front_page() && is_home() ) : ?>
-	<?php get_template_part( 'global-templates/hero' ); ?>
+	<?php get_template_part( 'sidebar-templates/sidebar', 'jumbotron' ); //FB: Werbung ?>
 <?php endif; ?>
 
 <div class="wrapper" id="index-wrapper">
@@ -43,6 +43,16 @@ $container = get_theme_mod( 'understrap_container_type' );
 					$CATEGORY_POSTS =0;
 				}
 				query_posts('&cat='.$CATEGORY_POSTS );
+				
+				// Determine col_size based on sidebar
+				$sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
+				$col_size = 4; // default: no sidebar
+				if ( 'right' === $sidebar_pos || 'left' === $sidebar_pos ) {
+					$col_size = 6;
+				} elseif ( 'both' === $sidebar_pos ) {
+					$col_size = 12;
+				}
+				
 				if ( have_posts() ) {
 					// Start the Loop.
 					$cnt_posts =0;
@@ -59,7 +69,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 						 * If you want to override this in a child theme, then include a file
 						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
 						 */
-						get_template_part( 'loop-templates/content', get_post_format(),array('col_size' => 6)  );
+						get_template_part( 'loop-templates/content', get_post_format(),array('col_size' => $col_size)  );
 						$cnt_posts+=1;
 					}
 				} else {

@@ -8,16 +8,17 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-    function parseOffset($offset){
-      $offset = intval($offset);
-      $defaultVal = 0;
-      if(!is_int($offset) || $offset < 0 ||$offset >100){
-        return $defaultVal;
-      }
+if ( ! function_exists( 'parseOffset' ) ) {
+	function parseOffset( $offset ) {
+		$offset = intval( $offset );
+		$defaultVal = 0;
+		if ( ! is_int( $offset ) || $offset < 0 || $offset > 100 ) {
+			return $defaultVal;
+		}
 
-      return $offset;
-
-    }
+		return $offset;
+	}
+}
 
 
     $jumptronIsActive = get_theme_mod('understrap_jumbotron_isActive');
